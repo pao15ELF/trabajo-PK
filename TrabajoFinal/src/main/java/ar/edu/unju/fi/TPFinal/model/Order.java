@@ -2,20 +2,51 @@ package ar.edu.unju.fi.TPFinal.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ORDERS")
 public class Order {
 	
-	private int orderNumber;
+	@Id
+	@Column(name = "orderNumber")
+	private Integer orderNumber;
+	
+	@Column(name = "orderDate")
 	private LocalDate orderDate; //
+	
+	@Column(name = "requiredDate")
 	private LocalDate requiredDate;
+	
+	@Column(name = "shippedDate")
 	private LocalDate shippedDate;
+	
+	@Column(name = "status")
 	private String status; //tamaño 15
+	
+	@Column(name = "comments")
 	private String comments; //es TEXT definir tamaño
-	private int customerNumber;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerNumber")
+	private Customer customerNumber;
+	
+	@OneToOne(mappedBy = "orderDetailId.orderNumber" ,fetch = FetchType.LAZY)
+	private OrderDetail orderDetail;
 	
 	public Order()
 	{
 		
 	}
+
+	
 
 	/**
 	 * @param orderNumber
@@ -26,8 +57,8 @@ public class Order {
 	 * @param comments
 	 * @param customerNumber
 	 */
-	public Order(int orderNumber, LocalDate orderDate, LocalDate requiredDate, LocalDate shippedDate, String status,
-			String comments, int customerNumber) {
+	public Order(Integer orderNumber, LocalDate orderDate, LocalDate requiredDate, LocalDate shippedDate, String status,
+			String comments, Customer customerNumber) {
 		super();
 		this.orderNumber = orderNumber;
 		this.orderDate = orderDate;
@@ -38,19 +69,16 @@ public class Order {
 		this.customerNumber = customerNumber;
 	}
 
+
+
 	/**
 	 * @return the orderNumber
 	 */
-	public int getOrderNumber() {
+	public Integer getOrderNumber() {
 		return orderNumber;
 	}
 
-	/**
-	 * @param orderNumber the orderNumber to set
-	 */
-	public void setOrderNumber(int orderNumber) {
-		this.orderNumber = orderNumber;
-	}
+
 
 	/**
 	 * @return the orderDate
@@ -122,26 +150,64 @@ public class Order {
 		this.comments = comments;
 	}
 
+	
+	
+
 	/**
 	 * @return the customerNumber
 	 */
-	public int getCustomerNumber() {
+	public Customer getCustomerNumber() {
 		return customerNumber;
 	}
+
+
 
 	/**
 	 * @param customerNumber the customerNumber to set
 	 */
-	public void setCustomerNumber(int customerNumber) {
+	public void setCustomerNumber(Customer customerNumber) {
 		this.customerNumber = customerNumber;
 	}
 
+
+
+	/**
+	 * @param orderNumber the orderNumber to set
+	 */
+	public void setOrderNumber(Integer orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+
+	
+
+
+
+	/**
+	 * @return the orderDetail
+	 */
+	public OrderDetail getOrderDetail() {
+		return orderDetail;
+	}
+
+
+
+	/**
+	 * @param orderDetail the orderDetail to set
+	 */
+	public void setOrderDetail(OrderDetail orderDetail) {
+		this.orderDetail = orderDetail;
+	}
+
+
+	
+
 	@Override
 	public String toString() {
-		return "Orders [orderNumber=" + orderNumber + ", orderDate=" + orderDate + ", requiredDate=" + requiredDate
+		return "Order [orderNumber=" + orderNumber + ", orderDate=" + orderDate + ", requiredDate=" + requiredDate
 				+ ", shippedDate=" + shippedDate + ", status=" + status + ", comments=" + comments + ", customerNumber="
 				+ customerNumber + "]";
 	}
-	
+
 	
 }

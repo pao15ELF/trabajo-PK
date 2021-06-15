@@ -2,11 +2,22 @@ package ar.edu.unju.fi.TPFinal.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+import javax.persistence.Table;
+@Entity
+@Table(name = "PAYMENTS")
 public class Payment {
 	
-	private int customersNumber;
-	private String checkNumber; // tamaño 50
+	@EmbeddedId
+	private PaymentId paymentId;
+	
+	@Column(name = "paymentDate")
 	private LocalDate paymentDate; 
+	
+	@Column(name = "amount")
 	private double amount;
 	
 	
@@ -17,49 +28,31 @@ public class Payment {
 
 
 	/**
-	 * @param customersNumber
-	 * @param checkNumber
+	 * @param paymentId
 	 * @param paymentDate
 	 * @param amount
 	 */
-	public Payment(int customersNumber, String checkNumber, LocalDate paymentDate, double amount) {
+	public Payment(PaymentId paymentId, LocalDate paymentDate, double amount) {
 		super();
-		this.customersNumber = customersNumber;
-		this.checkNumber = checkNumber;
+		this.paymentId = paymentId;
 		this.paymentDate = paymentDate;
 		this.amount = amount;
 	}
 
 
 	/**
-	 * @return the customersNumber
+	 * @return the paymentId
 	 */
-	public int getCustomersNumber() {
-		return customersNumber;
+	public PaymentId getPaymentId() {
+		return paymentId;
 	}
 
 
 	/**
-	 * @param customersNumber the customersNumber to set
+	 * @param paymentId the paymentId to set
 	 */
-	public void setCustomersNumber(int customersNumber) {
-		this.customersNumber = customersNumber;
-	}
-
-
-	/**
-	 * @return the checkNumber
-	 */
-	public String getCheckNumber() {
-		return checkNumber;
-	}
-
-
-	/**
-	 * @param checkNumber the checkNumber to set
-	 */
-	public void setCheckNumber(String checkNumber) {
-		this.checkNumber = checkNumber;
+	public void setPaymentId(PaymentId paymentId) {
+		this.paymentId = paymentId;
 	}
 
 
@@ -94,13 +87,13 @@ public class Payment {
 		this.amount = amount;
 	}
 
+	
 
 	@Override
 	public String toString() {
-		return "Payments [customersNumber=" + customersNumber + ", checkNumber=" + checkNumber + ", paymentDate="
-				+ paymentDate + ", amount=" + amount + "]";
+		return "Payment [paymentId=" + paymentId + ", paymentDate=" + paymentDate + ", amount=" + amount + "]";
 	}
-	
-	
 
+
+	
 }

@@ -1,16 +1,48 @@
 package ar.edu.unju.fi.TPFinal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "OFFICES")
 public class Office {
 
+	@Id
+	@Column(name = "officeCode")
 	private String officeCode; //10
+	
+	@Column(name = "city")
 	private String city; // 50
+	
+	@Column(name = "phone")
 	private String phone; //50
+	
+	@Column(name = "addressLine1")
 	private String addressLine1; //50
+	
+	@Column(name = "addressLine2")
 	private String addressLine2; //50
+	
+	@Column(name = "state")
 	private String state; //50
+	
+	@Column(name = "country")
 	private String country; // 50
+	
+	@Column(name = "postalCode")
 	private String postalCode; //15
+	
+	@Column(name = "territory")
 	private String territory; //10
+	
+	@OneToMany(mappedBy = "officeCode")
+	private List<Employee> empleados = new ArrayList<Employee>();
 	
 	public Office()
 	{
@@ -166,6 +198,22 @@ public class Office {
 	 */
 	public void setTerritory(String territory) {
 		this.territory = territory;
+	}
+
+	
+	
+	/**
+	 * @return the empleados
+	 */
+	public List<Employee> getEmpleados() {
+		return empleados;
+	}
+
+	/**
+	 * @param empleados the empleados to set
+	 */
+	public void setEmpleados(List<Employee> empleados) {
+		this.empleados = empleados;
 	}
 
 	@Override

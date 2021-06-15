@@ -1,11 +1,25 @@
 package ar.edu.unju.fi.TPFinal.model;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ORDERDETAILS")
 public class OrderDetail {
 	
-	private int orderNumber; 
-	private String productCode; //tamaño 15
+	@EmbeddedId
+	private OrderDetailId orderDetailId;
+	
+	@Column(name = "quantityOrdered")
 	private int quantityOrdered;
+	
+	@Column(name = "priceEach")
 	private double priceEach; 
+	
+	@Column(name = "orderLineNumber")
 	private short orderLineNumber;
 	
 	public OrderDetail()
@@ -13,54 +27,18 @@ public class OrderDetail {
 		
 	}
 
-	
 	/**
-	 * @param orderNumber
-	 * @param productCode
-	 * @param quantityOrdered
-	 * @param priceEach
-	 * @param orderLineNumber
+	 * @return the orderDetailId
 	 */
-	public OrderDetail(int orderNumber, String productCode, int quantityOrdered, double priceEach,
-			short orderLineNumber) {
-		super();
-		this.orderNumber = orderNumber;
-		this.productCode = productCode;
-		this.quantityOrdered = quantityOrdered;
-		this.priceEach = priceEach;
-		this.orderLineNumber = orderLineNumber;
+	public OrderDetailId getOrderDetailId() {
+		return orderDetailId;
 	}
 
-
 	/**
-	 * @return the orderNumber
+	 * @param orderDetailId the orderDetailId to set
 	 */
-	public int getOrderNumber() {
-		return orderNumber;
-	}
-
-
-	/**
-	 * @param orderNumber the orderNumber to set
-	 */
-	public void setOrderNumber(int orderNumber) {
-		this.orderNumber = orderNumber;
-	}
-
-
-	/**
-	 * @return the productCode
-	 */
-	public String getProductCode() {
-		return productCode;
-	}
-
-
-	/**
-	 * @param productCode the productCode to set
-	 */
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
+	public void setOrderDetailId(OrderDetailId orderDetailId) {
+		this.orderDetailId = orderDetailId;
 	}
 
 
@@ -111,13 +89,13 @@ public class OrderDetail {
 		this.orderLineNumber = orderLineNumber;
 	}
 
-
+	
+	
 	@Override
 	public String toString() {
-		return "OrderDetails [orderNumber=" + orderNumber + ", productCode=" + productCode + ", quantityOrdered="
-				+ quantityOrdered + ", priceEach=" + priceEach + ", orderLineNumber=" + orderLineNumber + "]";
+		return "OrderDetail [quantityOrdered=" + quantityOrdered + ", priceEach=" + priceEach + ", orderLineNumber="
+				+ orderLineNumber + "]";
 	}
-
 	
 	
 	
