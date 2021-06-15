@@ -1,20 +1,56 @@
 package ar.edu.unju.fi.TPFinal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "EMPLOYEES")
 public class Employee {
 	
-	private int employeeNumber;
+	@Id
+	@Column(name = "employeeNumber")
+	private Integer employeeNumber;
+	
+	@Column(name = "lastName")
 	private String lastName; //tamaño 50
+	
+	@Column(name = "firstName")
 	private String firstName; //tamaño 50
+	
+	@Column(name = "extension")
 	private String extension; // tamaño 10
+	
+	@Column(name = "email")
 	private String email; // tamaño 100
-	private String officeCode; //tamaño 10
-	private int reportsTo; 
+	
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "officeCode")
+	private Office officeCode; //tamaño 10
+	
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "reportsTo")
+	private Employee reportsTo; 
+	
+	@Column(name = "jobTitle")
 	private String jobTitle; //tamaño50
+	
+	@OneToMany(mappedBy = "salesRepEmployeeNumber")
+	private List<Customer> customers = new ArrayList<Customer>();
 	
 	public Employee()
 	{
 		
 	}
+
 
 	/**
 	 * @param employeeNumber
@@ -26,9 +62,9 @@ public class Employee {
 	 * @param reportsTo
 	 * @param jobTitle
 	 */
-	public Employee(int employeeNumber, String lastName, String firstName, String extension, String email,
-			String officeCode, int reportsTo, String jobTitle) {
-		super();
+	public Employee(Integer employeeNumber, String lastName, String firstName, String extension, String email,
+			Office officeCode, Employee reportsTo, String jobTitle) {
+		
 		this.employeeNumber = employeeNumber;
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -39,19 +75,25 @@ public class Employee {
 		this.jobTitle = jobTitle;
 	}
 
+
+
 	/**
 	 * @return the employeeNumber
 	 */
-	public int getEmployeeNumber() {
+	public Integer getEmployeeNumber() {
 		return employeeNumber;
 	}
+
+
 
 	/**
 	 * @param employeeNumber the employeeNumber to set
 	 */
-	public void setEmployeeNumber(int employeeNumber) {
+	public void setEmployeeNumber(Integer employeeNumber) {
 		this.employeeNumber = employeeNumber;
 	}
+
+
 
 	/**
 	 * @return the lastName
@@ -60,12 +102,16 @@ public class Employee {
 		return lastName;
 	}
 
+
+
 	/**
 	 * @param lastName the lastName to set
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+
 
 	/**
 	 * @return the firstName
@@ -74,12 +120,16 @@ public class Employee {
 		return firstName;
 	}
 
+
+
 	/**
 	 * @param firstName the firstName to set
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
+
 
 	/**
 	 * @return the extension
@@ -88,12 +138,16 @@ public class Employee {
 		return extension;
 	}
 
+
+
 	/**
 	 * @param extension the extension to set
 	 */
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
+
+
 
 	/**
 	 * @return the email
@@ -102,6 +156,8 @@ public class Employee {
 		return email;
 	}
 
+
+
 	/**
 	 * @param email the email to set
 	 */
@@ -109,33 +165,43 @@ public class Employee {
 		this.email = email;
 	}
 
+
+
 	/**
 	 * @return the officeCode
 	 */
-	public String getOfficeCode() {
+	public Office getOfficeCode() {
 		return officeCode;
 	}
+
+
 
 	/**
 	 * @param officeCode the officeCode to set
 	 */
-	public void setOfficeCode(String officeCode) {
+	public void setOfficeCode(Office officeCode) {
 		this.officeCode = officeCode;
 	}
+
+
 
 	/**
 	 * @return the reportsTo
 	 */
-	public int getReportsTo() {
+	public Employee getReportsTo() {
 		return reportsTo;
 	}
+
+
 
 	/**
 	 * @param reportsTo the reportsTo to set
 	 */
-	public void setReportsTo(int reportsTo) {
+	public void setReportsTo(Employee reportsTo) {
 		this.reportsTo = reportsTo;
 	}
+
+
 
 	/**
 	 * @return the jobTitle
@@ -144,6 +210,8 @@ public class Employee {
 		return jobTitle;
 	}
 
+
+
 	/**
 	 * @param jobTitle the jobTitle to set
 	 */
@@ -151,12 +219,34 @@ public class Employee {
 		this.jobTitle = jobTitle;
 	}
 
+
+	
+	
+	/**
+	 * @return the customers
+	 */
+	public List<Customer> getCustomers() {
+		return customers;
+	}
+
+
+
+	/**
+	 * @param customers the customers to set
+	 */
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "Employees [employeeNumber=" + employeeNumber + ", lastName=" + lastName + ", firstName=" + firstName
+		return "Employee [employeeNumber=" + employeeNumber + ", lastName=" + lastName + ", firstName=" + firstName
 				+ ", extension=" + extension + ", email=" + email + ", officeCode=" + officeCode + ", reportsTo="
 				+ reportsTo + ", jobTitle=" + jobTitle + "]";
 	}
+
 
 	
 	

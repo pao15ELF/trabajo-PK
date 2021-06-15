@@ -1,31 +1,79 @@
 package ar.edu.unju.fi.TPFinal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "CUSTOMERS")
 public class Customer {
 	
-	private int customersNumber;
-	private String customersName; //tamaño 50
+	@Id
+	@Column(name = "customerNumber")
+	private Integer customerNumber;
+	
+	@Column(name = "customersName")
+	private String customerName; //tamaño 50
+	
+	@Column(name = "contactLastName")
 	private String contactLastName; // tamaño 50
+	
+	@Column(name = "contactFirstName")
 	private String contactFirstName; // tamaño 50
+	
+	@Column(name = "phone")
 	private String phone; //tamaño 50
+	
+	@Column(name = "addressLine1")
 	private String addressLine1; // tamaño 50
+	
+	@Column(name = "addressLine2")
 	private String addressLine2; // tamaño 50
+	
+	@Column(name = "city")
 	private String city; //tamaño 50
+	
+	@Column(name = "state")
 	private String state; // tamaño 50
+	
+	@Column(name = "postalCode")
 	private String postalCode; //tamaño 15
+	
+	@Column(name = "country")
 	private String country; //tamaño 50
-	private int salesRepEmployeeNumber;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "salesRepEmployeeNumber")
+	private Employee salesRepEmployeeNumber;
+	
+	@Column(name = "creditLimit")
 	private double creditLimit;
 	
+	@OneToOne(mappedBy = "paymentId.customersNumber")
+	private Payment payment;
+	
+	@OneToMany(mappedBy = "customerNumber" )
+	private List<Order> orders = new ArrayList<Order>();
 	
 	public Customer()
 	{
 		
 	}
 
+	
 
 	/**
-	 * @param customersNumber
-	 * @param customersName
+	 * @param customerNumber
+	 * @param customerName
 	 * @param contactLastName
 	 * @param contactFirstName
 	 * @param phone
@@ -38,12 +86,12 @@ public class Customer {
 	 * @param salesRepEmployeeNumber
 	 * @param creditLimit
 	 */
-	public Customer(int customersNumber, String customersName, String contactLastName, String contactFirstName,
+	public Customer(Integer customerNumber, String customerName, String contactLastName, String contactFirstName,
 			String phone, String addressLine1, String addressLine2, String city, String state, String postalCode,
-			String country, int salesRepEmployeeNumber, double creditLimit) {
-		super();
-		this.customersNumber = customersNumber;
-		this.customersName = customersName;
+			String country, Employee salesRepEmployeeNumber, double creditLimit) {
+	
+		this.customerNumber = customerNumber;
+		this.customerName = customerName;
 		this.contactLastName = contactLastName;
 		this.contactFirstName = contactFirstName;
 		this.phone = phone;
@@ -58,36 +106,49 @@ public class Customer {
 	}
 
 
+
 	/**
-	 * @return the customersNumber
+	 * @return the customerNumber
 	 */
-	public int getCustomersNumber() {
-		return customersNumber;
+	public Integer getCustomerNumber() {
+		return customerNumber;
 	}
 
 
-	/**
-	 * @param customersNumber the customersNumber to set
-	 */
-	public void setCustomersNumber(int customersNumber) {
-		this.customersNumber = customersNumber;
-	}
+
 
 
 	/**
-	 * @return the customersName
+	 * @param customerNumber the customerNumber to set
 	 */
-	public String getCustomersName() {
-		return customersName;
+	public void setCustomerNumber(Integer customerNumber) {
+		this.customerNumber = customerNumber;
 	}
+
+
+
 
 
 	/**
-	 * @param customersName the customersName to set
+	 * @return the customerName
 	 */
-	public void setCustomersName(String customersName) {
-		this.customersName = customersName;
+	public String getCustomerName() {
+		return customerName;
 	}
+
+
+
+
+
+	/**
+	 * @param customerName the customerName to set
+	 */
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+
+
 
 
 	/**
@@ -98,12 +159,18 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @param contactLastName the contactLastName to set
 	 */
 	public void setContactLastName(String contactLastName) {
 		this.contactLastName = contactLastName;
 	}
+
+
+
 
 
 	/**
@@ -114,12 +181,18 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @param contactFirstName the contactFirstName to set
 	 */
 	public void setContactFirstName(String contactFirstName) {
 		this.contactFirstName = contactFirstName;
 	}
+
+
+
 
 
 	/**
@@ -130,12 +203,18 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @param phone the phone to set
 	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+
+
 
 
 	/**
@@ -146,12 +225,18 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @param addressLine1 the addressLine1 to set
 	 */
 	public void setAddressLine1(String addressLine1) {
 		this.addressLine1 = addressLine1;
 	}
+
+
+
 
 
 	/**
@@ -162,12 +247,18 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @param addressLine2 the addressLine2 to set
 	 */
 	public void setAddressLine2(String addressLine2) {
 		this.addressLine2 = addressLine2;
 	}
+
+
+
 
 
 	/**
@@ -178,12 +269,18 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @param city the city to set
 	 */
 	public void setCity(String city) {
 		this.city = city;
 	}
+
+
+
 
 
 	/**
@@ -194,12 +291,18 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @param state the state to set
 	 */
 	public void setState(String state) {
 		this.state = state;
 	}
+
+
+
 
 
 	/**
@@ -210,6 +313,9 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @param postalCode the postalCode to set
 	 */
@@ -218,12 +324,18 @@ public class Customer {
 	}
 
 
+
+
+
 	/**
 	 * @return the country
 	 */
 	public String getCountry() {
 		return country;
 	}
+
+
+
 
 
 	/**
@@ -237,17 +349,19 @@ public class Customer {
 	/**
 	 * @return the salesRepEmployeeNumber
 	 */
-	public int getSalesRepEmployeeNumber() {
+	public Employee getSalesRepEmployeeNumber() {
 		return salesRepEmployeeNumber;
 	}
+
 
 
 	/**
 	 * @param salesRepEmployeeNumber the salesRepEmployeeNumber to set
 	 */
-	public void setSalesRepEmployeeNumber(int salesRepEmployeeNumber) {
+	public void setSalesRepEmployeeNumber(Employee salesRepEmployeeNumber) {
 		this.salesRepEmployeeNumber = salesRepEmployeeNumber;
 	}
+
 
 
 	/**
@@ -265,16 +379,55 @@ public class Customer {
 		this.creditLimit = creditLimit;
 	}
 
+	
+	
+
+
+
+	/**
+	 * @return the orders
+	 */
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+
+
+	/**
+	 * @param orders the orders to set
+	 */
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+
+
+	/**
+	 * @return the payment
+	 */
+	public Payment getPayment() {
+		return payment;
+	}
+
+
+
+	/**
+	 * @param payment the payment to set
+	 */
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+
 
 	@Override
 	public String toString() {
-		return "Customers [customersNumber=" + customersNumber + ", customersName=" + customersName
-				+ ", contactLastName=" + contactLastName + ", contactFirstName=" + contactFirstName + ", phone=" + phone
-				+ ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", city=" + city + ", state="
-				+ state + ", postalCode=" + postalCode + ", country=" + country + ", salesRepEmployeeNumber="
+		return "Customer [customerNumber=" + customerNumber + ", customerName=" + customerName + ", contactLastName="
+				+ contactLastName + ", contactFirstName=" + contactFirstName + ", phone=" + phone + ", addressLine1="
+				+ addressLine1 + ", addressLine2=" + addressLine2 + ", city=" + city + ", state=" + state
+				+ ", postalCode=" + postalCode + ", country=" + country + ", salesRepEmployeeNumber="
 				+ salesRepEmployeeNumber + ", creditLimit=" + creditLimit + "]";
 	}
 
-	
-	
+
 }

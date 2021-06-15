@@ -1,16 +1,39 @@
 package ar.edu.unju.fi.TPFinal.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PRODUCTS")
 public class Product {
 	
+	@Id
+	@Column(name = "productCode")
 	private String productCode; //tamaño 15 PRINCIPAL
+	@Column(name = "productName")
 	private String productName; //tamaño 70
-	private String productLine; //tamaño 50
+	
+	@ManyToOne(optional = false,fetch = FetchType.LAZY)
+	@JoinColumn(name = "productLine")
+	private ProductLine productLine; //tamaño 50
+	
+	@Column(name = "productScale")
 	private String productScale; //tamaño 10
+	@Column(name = "productVendor")
 	private String productVendor; //tamaño 50
+	@Column(name = "productDescription")
 	private String productDescription; // text en la base 
-	private short quantityInStock; // por Smalint en mysql
-	private double buyPrice;
-	private double MSRP; //averiguar que es
+	@Column(name = "quantityInStock")
+	private short quantityInStock; // (por Smalint en mysql)
+	@Column(name = "buyPrice")
+	private double buyPrice;//precio de compra(bigDecimal)
+	@Column(name = "MSRP")
+	private double MSRP; //precio de venta sugerido por el fabricante(bigDecimal)
 	
 	
 	public Product()
@@ -18,6 +41,8 @@ public class Product {
 		
 	}
 	
+	
+
 	/**
 	 * @param productCode
 	 * @param productName
@@ -29,7 +54,7 @@ public class Product {
 	 * @param buyPrice
 	 * @param mSRP
 	 */
-	public Product(String productCode, String productName, String productLine, String productScale,
+	public Product(String productCode, String productName, ProductLine productLine, String productScale,
 			String productVendor, String productDescription, short quantityInStock, double buyPrice, double mSRP) {
 		super();
 		this.productCode = productCode;
@@ -42,6 +67,8 @@ public class Product {
 		this.buyPrice = buyPrice;
 		MSRP = mSRP;
 	}
+
+
 
 	/**
 	 * @return the productCode
@@ -71,19 +98,25 @@ public class Product {
 		this.productName = productName;
 	}
 
+	
+
 	/**
 	 * @return the productLine
 	 */
-	public String getProductLine() {
+	public ProductLine getProductLine() {
 		return productLine;
 	}
+
+
 
 	/**
 	 * @param productLine the productLine to set
 	 */
-	public void setProductLine(String productLine) {
+	public void setProductLine(ProductLine productLine) {
 		this.productLine = productLine;
 	}
+
+
 
 	/**
 	 * @return the productScale
@@ -169,14 +202,16 @@ public class Product {
 		MSRP = mSRP;
 	}
 
+	
+	
 	@Override
 	public String toString() {
-		return "Products [productCode=" + productCode + ", productName=" + productName + ", productLine=" + productLine
+		return "Product [productCode=" + productCode + ", productName=" + productName + ", productLine=" + productLine
 				+ ", productScale=" + productScale + ", productVendor=" + productVendor + ", productDescription="
 				+ productDescription + ", quantityInStock=" + quantityInStock + ", buyPrice=" + buyPrice + ", MSRP="
 				+ MSRP + "]";
 	}
-	
-	
 
+	
+	
 }
