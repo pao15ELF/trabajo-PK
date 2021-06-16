@@ -1,6 +1,5 @@
 package ar.edu.unju.fi.TPFinal.service;
 
-import java.util.List;
 
 import ar.edu.unju.fi.TPFinal.model.ProductLine;
 
