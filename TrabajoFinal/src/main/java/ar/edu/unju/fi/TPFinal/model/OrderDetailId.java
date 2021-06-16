@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
 @Embeddable
 public class OrderDetailId implements Serializable{
 	private static final long serialVersionUID = 1L;
