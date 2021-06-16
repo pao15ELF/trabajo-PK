@@ -7,7 +7,7 @@ import ar.edu.unju.fi.TPFinal.model.Order;
 import ar.edu.unju.fi.TPFinal.repository.IOrderRepository;
 import ar.edu.unju.fi.TPFinal.service.IOrderService;
 
-@Service
+@Service("orderServiceImp")
 public class OrderServiceImp implements IOrderService{
 
 	@Autowired

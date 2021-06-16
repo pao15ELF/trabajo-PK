@@ -33,25 +33,40 @@ class EmployeeTest {
 		
 	}
 
-	//@Test
+	@Test
 	void testCargarEmployee() {
 		
-		Office office = officeService.buscarOfficePorId("STM");
-		Employee encontrado = employeeService.buscarEmployeePorId(2);
-		Employee employee = new Employee();
-		employee.setEmail("ejemplo@gmail.com");
-		employee.setExtension("x900");
-		employee.setFirstName("ejemplo1");
-		employee.setJobTitle("contador");
-		employee.setLastName("ejemplo1");
-		employee.setOfficeCode(office);
-		employee.setReportsTo(encontrado);
-		employee.setEmployeeNumber(4);
-		employeeService.guardarEmployee(employee);
-		Employee emp = employeeService.buscarEmployeePorId(4);
-		assertEquals(employee.getFirstName(),emp.getFirstName());
+		Office office = officeService.buscarOfficePorId("CTR");
+		
+		Employee employee1 = new Employee();
+		employee1.setEmail("jefe@gmail.com");
+		employee1.setExtension("x1");
+		employee1.setFirstName("principal");
+		employee1.setJobTitle("Economista");
+		employee1.setLastName("Lopez");
+		employee1.setOfficeCode(office);
+		employee1.setReportsTo(null);
+		employeeService.guardarEmployee(employee1);
+		
+		
+		Employee encontrado = employeeService.buscarEmployeePorId(1);
+		Employee employee2 = new Employee();
+		employee2.setEmail("ejemplo@gmail.com");
+		employee2.setExtension("x900");
+		employee2.setFirstName("ejemplo1");
+		employee2.setJobTitle("contador");
+		employee2.setLastName("ejemplo1");
+		employee2.setOfficeCode(office);
+		employee2.setReportsTo(encontrado);
+		employeeService.guardarEmployee(employee2);
+		
+		Employee emp = employeeService.buscarEmployeePorId(2);
+		
+		
+		assertEquals(employee2.getFirstName(),emp.getFirstName());
 	}
-	@Test
+	
+	//@Test
 	void testCustomers() {
 		
 		Employee encontrado = employeeService.buscarEmployeePorId(1);
