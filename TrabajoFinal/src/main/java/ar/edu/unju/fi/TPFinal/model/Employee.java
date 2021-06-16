@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,7 @@ import javax.persistence.Table;
 public class Employee {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "employeeNumber")
 	private Integer employeeNumber;
 	
@@ -36,14 +39,14 @@ public class Employee {
 	@JoinColumn(name = "officeCode")
 	private Office officeCode; //tamaño 10
 	
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "reportsTo")
 	private Employee reportsTo; 
 	
 	@Column(name = "jobTitle")
 	private String jobTitle; //tamaño50
 	
-	@OneToMany(mappedBy = "salesRepEmployeeNumber")
+	@OneToMany(mappedBy = "salesRepEmployeeNumber",fetch = FetchType.EAGER)
 	private List<Customer> customers = new ArrayList<Customer>();
 	
 	public Employee()

@@ -42,7 +42,7 @@ public class Office {
 	private String territory; //10
 	
 	@OneToMany(mappedBy = "officeCode")
-	private List<Employee> empleados = new ArrayList<Employee>();
+	private List<Employee> employees = new ArrayList<Employee>();
 	
 	public Office()
 	{
@@ -202,18 +202,19 @@ public class Office {
 
 	
 	
+
 	/**
-	 * @return the empleados
+	 * @return the employees
 	 */
-	public List<Employee> getEmpleados() {
-		return empleados;
+	public List<Employee> getEmployees() {
+		return employees;
 	}
 
 	/**
-	 * @param empleados the empleados to set
+	 * @param employees the employees to set
 	 */
-	public void setEmpleados(List<Employee> empleados) {
-		this.empleados = empleados;
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
 	}
 
 	@Override

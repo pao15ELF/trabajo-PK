@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 public class Customer {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "customerNumber")
 	private Integer customerNumber;
 	
@@ -58,10 +61,10 @@ public class Customer {
 	@Column(name = "creditLimit")
 	private double creditLimit;
 	
-	@OneToOne(mappedBy = "paymentId.customersNumber")
+	@OneToOne(mappedBy = "paymentId.customersNumber",fetch = FetchType.LAZY)
 	private Payment payment;
 	
-	@OneToMany(mappedBy = "customerNumber" )
+	@OneToMany(mappedBy = "customerNumber",fetch = FetchType.LAZY)
 	private List<Order> orders = new ArrayList<Order>();
 	
 	public Customer()
