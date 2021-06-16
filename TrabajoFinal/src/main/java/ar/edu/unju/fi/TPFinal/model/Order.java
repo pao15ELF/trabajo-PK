@@ -2,6 +2,7 @@ package ar.edu.unju.fi.TPFinal.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,7 +42,7 @@ public class Order {
 	@JoinColumn(name = "customerNumber")
 	private Customer customerNumber;
 	
-	@OneToOne(mappedBy = "orderDetailId.orderNumber" ,fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "orderDetailId.orderNumber" ,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private OrderDetail orderDetail;
 	
 	public Order()

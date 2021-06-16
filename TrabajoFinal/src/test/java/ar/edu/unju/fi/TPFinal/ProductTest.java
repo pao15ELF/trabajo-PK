@@ -25,7 +25,7 @@ class ProductTest {
 		
 		
 		ProductLine marca = productLineService.buscarProductLinePorId("SRN-01");
-		/*
+		
 		Product producto1= new Product();
 		
 		producto1.setProductCode("SRN-YGT-01");
@@ -39,8 +39,8 @@ class ProductTest {
 		producto1.setBuyPrice(80);
 		
 		productService.guardarProduct(producto1);
-		Product productoEncontrado= productService.buscarProductPorId("SRN-YGT-01");
-		*/
+		//Product productoEncontrado= productService.buscarProductPorId("SRN-YGT-01");
+		
 		
 		Product producto2= new Product();
 		

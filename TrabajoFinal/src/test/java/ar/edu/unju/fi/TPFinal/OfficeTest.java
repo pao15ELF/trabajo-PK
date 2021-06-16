@@ -24,7 +24,7 @@ class OfficeTest {
 		office.setAddressLine2("salta 452");
 		office.setCity("Jujuy");
 		office.setCountry("Argentina");
-		office.setOfficeCode("CTR");
+		office.setOfficeCode("CTR"); //id ingresado manualmente
 		office.setPhone("155197089");
 		office.setPostalCode("4600");
 		office.setState("---");
