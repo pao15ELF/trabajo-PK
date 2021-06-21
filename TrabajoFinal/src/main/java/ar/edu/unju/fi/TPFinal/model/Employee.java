@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "EMPLOYEES")
@@ -23,27 +25,36 @@ public class Employee {
 	@Column(name = "employeeNumber")
 	private Integer employeeNumber;
 	
-	@Column(name = "lastName")
+	@NotEmpty(message="Debe ingresar el apellido del empleado")
+	@Column(name = "lastName", length=50, nullable=false)
 	private String lastName; //tamaño 50
 	
-	@Column(name = "firstName")
+	@NotEmpty(message="Debe ingresar el nombre del empleado")
+	@Column(name = "firstName", length=50, nullable=false)
 	private String firstName; //tamaño 50
 	
-	@Column(name = "extension")
+	@NotEmpty(message="Debe ingresar la extension")
+	@Column(name = "extension", length=10, nullable=false)
 	private String extension; // tamaño 10
 	
-	@Column(name = "email")
+	@NotEmpty(message="Debe ingresar un correo electronico valido")
+	@Column(name = "email", length=100, nullable=false)
 	private String email; // tamaño 100
 	
+	@Valid
+	//@Autowired
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "officeCode")
 	private Office officeCode; //tamaño 10
 	
+	
+	@Valid
 	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "reportsTo")
 	private Employee reportsTo; 
 	
-	@Column(name = "jobTitle")
+	@NotEmpty(message="Debe ingresar el titulo de trabajo del empleado")
+	@Column(name = "jobTitle", length=50, nullable=false)
 	private String jobTitle; //tamaño50
 	
 	@OneToMany(mappedBy = "salesRepEmployeeNumber",fetch = FetchType.EAGER)

@@ -13,6 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "ORDERS")
@@ -23,25 +28,33 @@ public class Order {
 	@Column(name = "orderNumber")
 	private Integer orderNumber;
 	
-	@Column(name = "orderDate")
+	@NotNull(message="Debe ingresar la fecha de la orden ")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "orderDate", nullable=false)
 	private LocalDate orderDate; //
 	
-	@Column(name = "requiredDate")
+	@NotNull(message="Debe ingresar la fecha de retiro de la orden ")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "requiredDate", nullable=false)
 	private LocalDate requiredDate;
 	
-	@Column(name = "shippedDate")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "shippedDate", nullable=true)
 	private LocalDate shippedDate;
 	
-	@Column(name = "status")
+	@NotEmpty(message="Debe ingresar el estado de la orden")
+	@Column(name = "status", length=15, nullable=false)
 	private String status; //tamaño 15
 	
-	@Column(name = "comments")
+	@Column(name = "comments", length=250, nullable=true)
 	private String comments; //es TEXT definir tamaño
 	
+	@Valid
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customerNumber")
 	private Customer customerNumber;
 	
+	@Valid
 	@OneToOne(mappedBy = "orderDetailId.orderNumber" ,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private OrderDetail orderDetail;
 	

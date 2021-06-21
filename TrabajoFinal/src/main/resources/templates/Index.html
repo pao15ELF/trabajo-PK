@@ -2,11 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Pagina principal</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.6.0-1/css/bootstrap.min.css}">
 	</head>
-		<h1>Pagina de Inicio</h1>
-	
 	<body>
-
+		<header th:replace="/layouts/header :: header"> </header>
+		<div class="container-fluid"> 
+			<div class="row">
+				<div class="col-sm-12 col-md-10">
+					<div class="card-deck">
+					  <!-- Primer contenido -->				
+					  <div class="col">
+					    <div class="card h-100"> <!-- para que todas las cards tengan el mismo largo h-100-->
+					      	<a href="https://www.huercasa.com/es/blog/ranking-30-alimentos-saludables">
+					      		<img src="/images/noticias-alimentos.jpg" class="card-img-top" alt="...">
+					      	</a> 
+					      <div class="card-body">
+					        <h5 class="card-title">Titulo 1</h5>
+					        <p class="card-text">Noticia 1</p>
+					        <a href="https://www.huercasa.com/es/blog/ranking-30-alimentos-saludables">ver mas...</a>
+					      </div>
+					    </div>
+					  </div>
+					  <!-- Fin primer contenido -->
+					  <!-- Segundo contenido -->
+					  <div class="col">
+					    <div class="card h-100">
+					    	<a href="https://www.tuasaude.com/es/alimentos-sin-gluten/"> 
+					    		<img src="/images/noticias-alimentos-gluten.jpg" class="card-img-top" alt="...">
+					    	</a> 
+					      <div class="card-body">
+					        <h5 class="card-title">Titulo 2 </h5>
+					        <!-- <p class="card-text">15 Alimentos sin gluten que pueden ser incluidos en la dieta</p> -->
+					        <a href="">ver mas...</a>
+					      </div>
+					    </div>
+					  </div>
+					  <!-- Fin segundo contenido -->
+					  <!-- Tercer contenido -->
+					  <div class="col">
+					    <div class="card h-100"> <!-- para que todas las cards tengan el mismo largo h-100-->
+					      <a href="https://www.bmicos.com/blog/7-beneficios-de-tener-contacto-con-la-naturaleza/">
+					     		 <img src="/images/noticias-naturaleza.png" class="card-img-top" alt="...">
+					      </a>
+					      <div class="card-body">
+					        <h5 class="card-title">Titulo 3</h5>
+					        <p class="card-text">Noticia 3</p>
+					        <a href="">Ver mas...</a>
+					      </div>
+					    </div>
+					  </div>
+					  <!-- Fin tercer contenido -->
+					</div>				
+				 </div>
+				 <aside th:replace="/layouts/publicidad :: aside"> </aside>
+			 </div>
+		</div>
+		
+		<footer th:replace="/layouts/footer :: footer"> </footer>
+		<script type="text/javascript" th:src=@{/webjars/jquery/3.5.1/jquery.min.js}></script>
+		<script type="text/javascript" th:src=@{/webjars/popper.js/1.16.1-lts/popper.min.js}></script>
+		<script type="text/javascript" th:src=@{/webjars/bootstrap/4.6.0-1/js/bootstrap.min.js}></script>
 	</body>
 </html>
