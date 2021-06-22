@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+
+import org.springframework.stereotype.Component;
+@Component
 @Entity
 @Table(name="PRODUCTLINES")
 public class ProductLine {
