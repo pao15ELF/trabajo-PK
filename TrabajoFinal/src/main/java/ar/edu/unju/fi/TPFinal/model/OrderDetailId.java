@@ -9,7 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
+import org.springframework.stereotype.Component;
+
 @Embeddable
+@Component
 public class OrderDetailId implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
