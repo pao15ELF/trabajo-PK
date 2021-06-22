@@ -24,24 +24,22 @@
 									<th>Check Number</th>
 									<th>Payment Date</th>
 									<th>Amount</th>
-									<th>Acciones</th>
+									<!-- <th>Acciones</th> -->
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="p:${payment}">
 
-									<td th:text="${p.paymentId.costumersNumber.costumerNumber}">
-									</td>
+									<td th:text="${p.paymentId.costumersNumber.costumerNumber}"></td>
+									
 									<td th:text="${p.paymentId.checkNumber}"></td>
 									<td th:text="${p.paymentDate}"></td>
 									<td th:text="${p.amount}"></td>
 
-									<td><a
-										th:href="@{/payments/editar/}+${p.paymentId.checkNumber}"
-										class="btn btn-warning">EDITAR</a> <br>
+									<!-- <td><a
+										th:href="@{/payment/modificar/}+${p.paymentId.checkNumber}"class="btn btn-warning">EDITAR</a> <br>
 									<br> <a
-										th:href="@{/paymets/eliminar/}+${p.paymentId.checkNumber}"
-										class="btn btn-danger">ELIMINAR</a></td>
+										th:href="@{/payment/eliminar/}+${p.paymentId.checkNumber}"class="btn btn-danger">ELIMINAR</a></td> -->
 								</tr>
 							</tbody>
 						</table>
@@ -52,11 +50,8 @@
 		</div>
 	</div>
 	<footer th:replace="/layouts/footer :: footer"> </footer>
-	<script type="text/javascript"
-		th:src=@{/webjars/jquery/3.5.1/jquery.min.js}></script>
-	<script type="text/javascript"
-		th:src=@{/webjars/popper.js/1.16.1-lts/popper.min.js}></script>
-	<script type="text/javascript"
-		th:src=@{/webjars/bootstrap/4.6.0-1/js/bootstrap.min.js}></script>
+	<script type="text/javascript"th:src=@{/webjars/jquery/3.5.1/jquery.min.js}></script>
+	<script type="text/javascript"th:src=@{/webjars/popper.js/1.16.1-lts/popper.min.js}></script>
+	<script type="text/javascript"th:src=@{/webjars/bootstrap/4.6.0-1/js/bootstrap.min.js}></script>
 </body>
 </html>

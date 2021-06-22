@@ -19,7 +19,7 @@
 
 				<h1 class="text-center">Cargar de datos del cliente</h1>
 				<hr>
-				<form action="/cliente/guardar" th:object="${customer}"
+				<form action="/customer/guardar" th:object="${customer}"
 					method="post">
 					<!-- Id del cliente oculto -->
 					<input type="hidden" th:field="*{customerNumber}" />
