@@ -7,9 +7,11 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import org.springframework.stereotype.Component;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 @Embeddable
+@Component
 public class PaymentId implements Serializable{
 
 	private static final long serialVersionUID = 1L;

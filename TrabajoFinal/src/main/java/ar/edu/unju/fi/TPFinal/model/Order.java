@@ -19,8 +19,11 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "ORDERS")
+@Component
 public class Order {
 	
 	@Id

@@ -8,8 +8,11 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "ORDERDETAILS")
+@Component
 public class OrderDetail {
 	
 	@Valid

@@ -33,5 +33,17 @@ public class ProductServiceImp implements IProductService {
 		List<Product> lista = productRepository.findByProductLine(productLine);
 		return lista;
 	}
+
+	@Override
+	public void eliminarProduct(Product product) {
+		productRepository.delete(product);
+		
+	}
+
+	@Override
+	public List<Product> obtenerListaProducts() {
+		List<Product> lista = (List<Product>) productRepository.findAll();
+		return lista;
+	}
 	
 }

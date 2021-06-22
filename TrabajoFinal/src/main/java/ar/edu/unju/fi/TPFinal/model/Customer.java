@@ -18,8 +18,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "CUSTOMERS")
+@Component
 public class Customer {
 	
 	@Id
