@@ -28,7 +28,7 @@
 									<th>Status</th>
 									<th>Comments</th>
 									<th>Customer Number</th>
-									<th>Acciones</th>
+									<!-- <th>Acciones</th> -->
 								</tr>
 							</thead>
 							<tbody>
@@ -40,12 +40,10 @@
 									<td th:text="${o.shippedDate}"></td>
 									<td th:text="${o.status}"></td>
 									<td th:text="${o.comments}"></td>
-									<td th:text="${p.costumerNumber.costumerNumber}"></td>
-									<td><a
-										th:href="@{/order/editar/}+${o.orderNumber}"
-										class="btn btn-warning">EDITAR</a> <br> <br> <a
-										th:href="@{/order/eliminar/}+${o.orderNumber}"
-										class="btn btn-danger">ELIMINAR</a></td>
+									<td th:text="${o.costumerNumber.costumerNumber}"></td>
+									<!-- <td><a
+										th:href="@{/order/editar/}+${o.orderNumber}"class="btn btn-warning">EDITAR</a> <br> <br> <a
+										th:href="@{/order/eliminar/}+${o.orderNumber}"class="btn btn-danger">ELIMINAR</a></td> -->
 								</tr>
 							</tbody>
 						</table>
