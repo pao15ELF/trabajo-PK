@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,9 +15,10 @@ import ar.edu.unju.fi.TPFinal.model.ProductLine;
 import ar.edu.unju.fi.TPFinal.service.IProductLineService;
 import ar.edu.unju.fi.TPFinal.service.IProductService;
 
+
 @SpringBootTest
 class ProductLineTest {
-
+	private static final Log LOGGER = LogFactory.getLog(ProductLineTest.class);
 	
 	@Autowired
 	private IProductLineService productLineService; 
@@ -38,7 +41,7 @@ class ProductLineTest {
 	void listaProductos() {
 		ProductLine encontrado = productLineService.buscarProductLinePorId("SRN-01");
 		List<Product> lista = productService.buscarListaProductosPorLineProduct(encontrado); 
-		
+		LOGGER.info("lista de productos: "+ lista.get(0).getProductCode());
 		assertEquals(lista.size(),2);
 	}
 

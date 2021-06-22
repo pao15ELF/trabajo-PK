@@ -1,6 +1,8 @@
 package ar.edu.unju.fi.TPFinal.service.imp;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,17 @@ public class ProductLineServiceImp implements IProductLineService{
 		ProductLine marca = productLineRepository.findById(id).get();
 		
 		return marca;
+	}
+
+	@Override
+	public List<ProductLine> obtenerListaProductLines() {
+		List<ProductLine> lista = (List<ProductLine>) productLineRepository.findAll();
+		return lista;
+	}
+
+	@Override
+	public void EliminarProductLine(ProductLine productLine) {
+		productLineRepository.delete(productLine);
 	}
 
 	

@@ -7,9 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 import ar.edu.unju.fi.TPFinal.model.Employee;
 import ar.edu.unju.fi.TPFinal.model.Office;
 
-public interface IEmployeeRepository extends CrudRepository<Employee,String > {
+public interface IEmployeeRepository extends CrudRepository<Employee,Integer > {
 	
-	public List<Employee> findAllByOfficeCode(Office office);
+	public List<Employee> findByOfficeCode(Office office);
 	
 	public Employee findByEmployeeNumber(Integer id);
 }
