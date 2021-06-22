@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 @Entity
 @Table(name="PRODUCTLINES")
 public class ProductLine {
@@ -19,15 +21,19 @@ public class ProductLine {
 	@Column(name = "productline")
 	private String productLine; //tamaño 50
 	
-	@Column(name = "textDescription")
+
+	@Column(name = "textDescription", length=4000, nullable=true)
 	private String textDescription; // tamaño 4000 
 	
-	@Column(name = "htmlDescription")
+	
+	@Column(name = "htmlDescription", length=100, nullable=true)
 	private String htmlDescription; //Preguntar con respecto a MEDIUMTEXT
+	
 	
 	@Column(name = "image")
 	private Blob image;  //Averiguar 
 	
+	@Valid
 	@OneToMany(mappedBy = "productLine" ,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Product> products = new ArrayList<Product>();
 	

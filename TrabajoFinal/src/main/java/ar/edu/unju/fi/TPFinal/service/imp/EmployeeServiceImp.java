@@ -30,7 +30,19 @@ public class EmployeeServiceImp implements IEmployeeService {
 
 	@Override
 	public List<Employee> listaEmployeesPorOffice(Office office) {
-		List<Employee> lista = employeeRepository.findAllByOfficeCode(office);
+		List<Employee> lista = employeeRepository.findByOfficeCode(office);
+		return lista;
+	}
+
+	@Override
+	public void eliminarEmployee(Integer employeeNumber) {
+		employeeRepository.deleteById(employeeNumber);
+		
+	}
+
+	@Override
+	public List<Employee> listaemployees() {
+		List<Employee> lista = (List<Employee>) employeeRepository.findAll();
 		return lista;
 	}
 

@@ -7,8 +7,10 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 import javax.persistence.Table;
-
 import org.springframework.stereotype.Component;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "PAYMENTS")
 @Component
@@ -17,10 +19,13 @@ public class Payment {
 	@EmbeddedId
 	private PaymentId paymentId;
 	
-	@Column(name = "paymentDate")
+	@NotNull(message="Debe ingresar fecha de pago")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "paymentDate", nullable=false)
 	private LocalDate paymentDate; 
 	
-	@Column(name = "amount")
+	@Min(value=0, message="El valor minimo del monto debe ser mayor a cero")
+	@Column(name = "amount", nullable =false)
 	private double amount;
 	
 	

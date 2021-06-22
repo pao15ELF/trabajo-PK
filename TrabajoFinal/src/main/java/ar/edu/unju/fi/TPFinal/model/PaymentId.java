@@ -7,8 +7,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
 import org.springframework.stereotype.Component;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 @Embeddable
 @Component
 public class PaymentId implements Serializable{
@@ -20,12 +21,13 @@ public class PaymentId implements Serializable{
 	 *  cascadeType.Persist en customersNumer?
 	 * 
 	 */
-	
+	@Valid
 	@OneToOne(optional = false,fetch = FetchType.LAZY)
 	@JoinColumn(name = "customerNumber")
 	private Customer customersNumber;
 	
-	@Column(name = "checkNumber")
+	@NotEmpty(message="Debe ingresar el numero de check(?)")
+	@Column(name = "checkNumber", length=50, nullable=false)
 	private String checkNumber; // tamaño 50
 
 	/**
