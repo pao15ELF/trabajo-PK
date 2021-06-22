@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+	<head>
+		
+		<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Nuevo Producto Line</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.6.0-1/css/bootstrap.min.css}">
+	</head>
+	<body class="body">
+	<header th:replace="/layouts/header :: header"> </header>
+    <div class="form-text text-danger w-75 m-auto mt-3 mb-3 main text-center">
+		<h3>Nuevo Producto </h3> <hr>
+		</div>
+    <main class="form-text text-danger col-sm-10 offset-2">
+      	
+      
+      <div class="form-text text-danger col-sm-10 ">
+        
+        <form th:action="@{/product/save}" th:object="${product}" method="post" class="row g-3">
+        <div class="form-text text-danger col-sm-10 ">
+            <label for="productCode" class="form-label">Codigo Producto</label>
+            <input th:field="*{productCode}" type="text" class="form-control" id="productCode" />
+          </div>
+          <div class="form-text text-danger col-sm-10">
+            <label for="productName" class="form-label"> Nombre Producto</label>
+            <input th:field="*{productName}" type="text" class="form-control" id="productName" />
+          </div>
+          <div class="form-text text-danger col-sm-10 ">
+            <label for="productScale" class="form-label">Escala Producto</label>
+            <input th:field="*{productScale}" type="text" class="form-control" id="productScale" />
+          </div>
+          <div class="form-text text-danger col-sm-10">
+            <label for="productVendor" class="form-label">Vendedor Producto</label>
+            <input th:field="*{productVendor}" type="text" class="form-control" id="productVendor" />
+          </div>
+          <div class="form-text text-danger col-sm-10">
+            <label for="productDescription" class="form-label">Descripción de Producto</label>
+            <input
+            th:field="*{productDescription}"
+              type="text"
+              class="form-control"
+              id="productDescription"
+              placeholder="Descripción del producto . . . . "
+            />
+          </div>
+          <div class="form-text text-danger col-sm-10">
+            <label for="quantityInStock" class="form-label">Quantity in Stock</label>
+            <input th:field="*{quantityInStock}" type="text" class="form-control" id="quantityInStock" />
+          </div>
+          <div class="form-text text-danger col-sm-10 ">
+            <label for="buyPrice" class="form-label">Precio</label>
+          	 <input th:field="*{buyPrice}" type="text" class="form-control" id="buyPrice" />
+          </div>
+          <div class="form-text text-danger col-sm-10 ">
+            <label for="MSRP" class="form-label">MSRP</label>
+            <input th:field="*{MSRP}" type="text" class="form-control" id="MSRP" />
+          </div>
+           <!-- Select Product Line -->
+           <br>
+          <div class="col-sm-10">
+            <label  for="productLine" class="form-label">Product Line</label>
+            <select th:field="*{productLine.productLine}" name="productLine" id="productLine" class="form-select">
+				<option th:each="p: ${productsLine}" th:value="${p.productLine}" ><span th:text="${p.productLine}" ></span></option>
+								  
+			</select>
+          </div>
+          <div class="col-sm-10">
+            <button type="submit" class="btn mt-2 btn-primary">
+              Save Product
+            </button>
+          </div>
+        </form>
+      </div>
+      </main>
+    
+    <footer th:replace="/layouts/footer :: footer"> </footer>
+<script type="text/javascript" th:src=@{/webjars/jquery/3.5.1/jquery.min.js}></script>
+<script type="text/javascript" th:src=@{/webjars/popper.js/1.16.1-lts/popper.min.js}></script>
+<script type="text/javascript" th:src=@{/webjars/bootstrap/4.6.0-1/js/bootstrap.min.js}></script>
+    
+     
+  </body>
+</html>

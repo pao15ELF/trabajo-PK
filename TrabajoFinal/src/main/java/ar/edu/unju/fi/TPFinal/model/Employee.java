@@ -16,8 +16,12 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "EMPLOYEES")
+@Component
 public class Employee {
 	
 	@Id
@@ -42,7 +46,7 @@ public class Employee {
 	private String email; // tamaño 100
 	
 	@Valid
-	//@Autowired
+	@Autowired
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "officeCode")
 	private Office officeCode; //tamaño 10
