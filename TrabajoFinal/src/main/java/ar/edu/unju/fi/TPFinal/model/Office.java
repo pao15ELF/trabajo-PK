@@ -10,8 +10,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "OFFICES")
+@Component
 public class Office {
 
 	@Id
