@@ -23,17 +23,17 @@ class EmployeeTest {
 	@Autowired
 	private IOfficeService officeService;
 	
-	//@Test
+	@Test
 	void testListaEmployees() {
 		
-		Office office = officeService.buscarOfficePorId("STM");
+		Office office = officeService.buscarOfficePorId("CTR");
 		
 		List<Employee> lista = employeeService.listaEmployeesPorOffice(office);
-		assertEquals(lista.size(), 3);
+		assertTrue(lista.size()==2);
 		
 	}
 
-	@Test
+	//@Test
 	void testCargarEmployee() {
 		
 		Office office = officeService.buscarOfficePorId("CTR");
