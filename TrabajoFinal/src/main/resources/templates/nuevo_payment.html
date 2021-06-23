@@ -17,15 +17,13 @@
 			<div class="col-sm-10 col-md">
 				<!-- Formulario -->
 
-				<h1 class="text-center">Cargar Nuevo Payment</h1>
+				<h1 class="text-center">Nuevo pago</h1>
 				<hr>
-				<form action="/payments/guardar" th:object="${payment}"
-					method="post">
-
+				<form action="/payment/guardar" th:object="${payment}" method="post">
 
 					<!-- Check Number -->
 					<div class="form-group">
-						<label for="checkNumber">Check Number</label> <input type="number"
+						<label for="checkNumber">Numero de Check </label> <input type="number"
 							class="form-control" id="checkNumber" th:field="*{paymentId.checkNumber}">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
@@ -35,8 +33,8 @@
 
 					<!-- Payment Date-->
 					<div class="form-group">
-						<label for="paymentDate">Payment Date</label> <input type="date"
-							class="form-control" id="paymentDate" th:field="*{paymentDate}">
+						<label for="paymentDate">Payment Date</label> 
+						<input type="date" class="form-control" id="paymentDate" th:field="*{paymentDate}">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('paymentDate')}" th:errors="*{paymentDate}"></div>
@@ -45,32 +43,34 @@
 					
 					<!-- Amount-->
 					<div class="form-group">
-						<label for="amount">Amount</label> <input type="number"
-							class="form-control" id="amount" th:field="*{amount}"
-							placeholder="Ingrese su numero">
+						<label for="amount">Total a pagar</label> 
+						<input type="number" class="form-control" id="amount" th:text="${total}">
 					</div>
-					<div class="form-text text-danger col-sm-10 offset-2"
-						th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
+					
+					<!--  <div class="form-text text-danger col-sm-10 offset-2"
+						th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div> -->
 
 					<!-- Fin Check Number -->
 
-					<!-- salesRepEmployeeNumber-->
+					<!-- customer-->
 					<div class="form-group ">
-						<label>Customer Number</label> <select
-							th:field="*{paymentId.customersNumber.customerNumber}"
+						<label>Cliente</label> 
+						<!-- <select th:field="*{paymentId.customersNumber.customerNumber}"
 							class="form-control">
 							<option th:each="c : ${customer}"
 								th:value="${c.customerNumber}"
 								th:text="${c.customerNumber} + ' - ' + ${c.customerName} "
 								th:selected="false"></option>
 
-						</select>
+						</select> -->
+						<h1 type="text" class="form-control" th:text="${customer.customerName}"></h1>
 					</div>
-					<!-- Fin salesRepEmployeeNumber -->
+					<!-- Fin customer -->
 
 					<br> <br>
-					<button type="submit" class="btn btn-primary">Enviar</button>
+					<button type="submit" class="btn btn-primary">Pagar</button>
 				</form>
+				
 
 			</div>
 

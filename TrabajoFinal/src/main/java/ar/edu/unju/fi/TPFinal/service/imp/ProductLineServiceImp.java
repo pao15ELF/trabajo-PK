@@ -24,8 +24,14 @@ public class ProductLineServiceImp implements IProductLineService{
 
 	@Override
 	public ProductLine buscarProductLinePorId(String id) {
-		
-		ProductLine marca = productLineRepository.findById(id).get();
+		ProductLine marca=null;
+		try {
+			marca = productLineRepository.findById(id).get();
+			
+		}catch( Exception e) {
+			e.getStackTrace();
+			
+		}
 		
 		return marca;
 	}

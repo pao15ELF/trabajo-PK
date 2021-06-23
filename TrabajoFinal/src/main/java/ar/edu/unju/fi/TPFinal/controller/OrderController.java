@@ -1,9 +1,12 @@
 package ar.edu.unju.fi.TPFinal.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -18,14 +21,17 @@ import ar.edu.unju.fi.TPFinal.model.Order;
 import ar.edu.unju.fi.TPFinal.model.OrderDetail;
 import ar.edu.unju.fi.TPFinal.model.OrderDetailId;
 import ar.edu.unju.fi.TPFinal.model.Payment;
+import ar.edu.unju.fi.TPFinal.model.PaymentId;
 import ar.edu.unju.fi.TPFinal.model.Product;
+import ar.edu.unju.fi.TPFinal.service.ICustomerService;
 import ar.edu.unju.fi.TPFinal.service.IOrderDetailService;
 import ar.edu.unju.fi.TPFinal.service.IOrderService;
+import ar.edu.unju.fi.TPFinal.service.IPaymentService;
+import ar.edu.unju.fi.TPFinal.service.IProductService;
 
-
-//@Controller
+@Controller
 public class OrderController {
-
+	private static final Log LOGGER = LogFactory.getLog(OrderController.class);
 	@Autowired
 	private Customer customer;
 	
@@ -46,73 +52,125 @@ public class OrderController {
 	private IOrderService orderService;
 	
 	@Autowired
+	private ICustomerService customerService;
+	
+	@Autowired
+	private IProductService productService;
+	
+	@Autowired
 	@Qualifier("orderDetailServiceImp")
 	private IOrderDetailService orderDetailService;
 	
+	@Autowired
+	private IPaymentService paymentService;
+	
+	private Product product1;
+	private Customer customer1;
+	
+	private List<OrderDetail> orderDetails = new ArrayList<OrderDetail>();
+	
+	private double total=0;
+	
+	@GetMapping("/orderDetail/nuevo")
+	public ModelAndView nuevoOrderDetailPage() {
+		ModelAndView mav = new ModelAndView("nuevo_orderDetail"); 
+		mav.addObject("orderDetail", orderDetail);
+		mav.addObject("products", productService.obtenerListaProducts());
+		return mav;
+	}
+	
+	@PostMapping("/orderDetail/cargar/siguiente")
+	public ModelAndView guardarOrderPage(@Valid @ModelAttribute("orderDetail")OrderDetail unOrderDetail, BindingResult resultadoValidacion) {
+		ModelAndView mav = new ModelAndView("nuevo_orderDetail");;
+		//OrderDetailId orderDetailId = new OrderDetailId();
+		if (resultadoValidacion.hasErrors()) {
+			mav.addObject("orderDetail", unOrderDetail);
+			mav.addObject("products", productService.obtenerListaProducts());
+			
+		}else {
+			orderDetails.add(unOrderDetail);
+			LOGGER.info("cantidad ordeerdatil"+unOrderDetail.getOrderDetailId().getProductCode());
+			mav.addObject("orderDetail", orderDetail);
+			mav.addObject("products", productService.obtenerListaProducts());
+		
+			//unOrder.setCustomerNumber(unCustomer);
+			//orderService.guardarOrder(unOrder);
+			//orderDetailId.setOrderNumber(unOrder);
+			//orderDetailId.setProductCode(unProduct);
+			//unOrderDetail.setOrderDetailId(orderDetailId);
+			//orderDetailService.guardarOrderDetail(unOrderDetail);		
+		}
+		return mav;
+	}
+	
 	@GetMapping("/order/nuevo")
 	public ModelAndView nuevoOrderPage() {
-		ModelAndView mav = new ModelAndView("nuevo_order"); 
-		mav.addObject("customer", customer);
+		ModelAndView mav = new ModelAndView("nuevo_order");
 		mav.addObject("order", order);
-		mav.addObject("product", product);
+		mav.addObject("customers", customerService.listaCustomers());
 		return mav;
 	}
 	
-	@PostMapping("/order/cargar/siguiente")
-	public ModelAndView guardarOrderPage(@ModelAttribute("customer") Customer unCustomer,@ModelAttribute("product")Product unProduct,@Valid @ModelAttribute("order")Order unOrder, @Valid @ModelAttribute("orderDetail")OrderDetail unOrderDetail, BindingResult resultadoValidacion) {
-		ModelAndView mav = new ModelAndView("nuevo_order");;
-		OrderDetailId orderDetailId = new OrderDetailId();
-		if (resultadoValidacion.hasErrors()) {
-			mav.addObject("customer", unCustomer);
-			mav.addObject("order", unOrder);
-			mav.addObject("product", product);
-		}else {
-			unOrder.setCustomerNumber(unCustomer);
-			orderService.guardarOrder(unOrder);
-			orderDetailId.setOrderNumber(unOrder);
-			orderDetailId.setProductCode(unProduct);
-			unOrderDetail.setOrderDetailId(orderDetailId);
-			orderDetailService.guardarOrderDetail(unOrderDetail);
-			mav.addObject("customer",unCustomer);
-			mav.addObject("order",unOrder);
-			mav.addObject("product", product);
-		}
-		return mav;
-	}
-	
-	@PostMapping("/payment/nuevo")
-	public ModelAndView pagarOrderPage(@ModelAttribute("customer") Customer unCustomer,@ModelAttribute("order")Order unOrder) {
-		ModelAndView mav = new ModelAndView("nuevo_payment");
-		List<OrderDetail> lista = orderDetailService.buscarOrdersPorOrderNumber(unOrder);
+	@PostMapping("/order/control")
+	public ModelAndView pagarOrderPage(@Valid @ModelAttribute("order")Order unOrder, BindingResult resultadoValidacion) {
+		ModelAndView mav;
+		
+		
+		//List<OrderDetail> lista = orderDetailService.buscarOrdersPorOrderNumber(unOrder);
 		//calculo auxiliar de monto total de la compra
-		double total=0;
-		for(OrderDetail o: lista) {
-			total+=o.getPriceEach()*o.getQuantityOrdered();
+		if (resultadoValidacion.hasErrors()) {
+			mav = new ModelAndView("nuevo_order");
+			mav.addObject("order", unOrder);
+			mav.addObject("customers", customerService.listaCustomers());
+		}else {
+			orderService.guardarOrder(unOrder);
+			for(OrderDetail o: orderDetails) {
+				OrderDetailId oId = new OrderDetailId();
+				oId.setProductCode(o.getOrderDetailId().getProductCode());
+				oId.setOrderNumber(unOrder);
+				o.setOrderDetailId(oId);
+				orderDetailService.guardarOrderDetail(o);
+				total=total+(o.getPriceEach()*o.getQuantityOrdered());
+				oId=null;
+			}
+		LOGGER.info("cliente1 "+unOrder.getCustomerNumber().getCustomerNumber());
+			customer1 = customerService.buscarCustomerPorId(unOrder.getCustomerNumber().getCustomerNumber());
+			mav = new ModelAndView("nuevo_payment");			
+			mav.addObject("payment", payment);
+			mav.addObject("customer", customer1);
+			
+			mav.addObject("total", total);
 		}
-		//monto de la orden
-		mav.addObject("amount", total);
-		mav.addObject("customer", unCustomer);
-		mav.addObject("payment", payment);
 		return mav;
 		
 	}
 	
-	@PostMapping("/payment/pagar")
-	public ModelAndView realizarPaymentPage(@Valid @ModelAttribute("payment")Payment unPayment,@ModelAttribute("order")Order unOrder, BindingResult resultadoValidacion) {
+	@PostMapping("/payment/guardar")
+	public ModelAndView realizarPaymentPage(@Valid @ModelAttribute("payment")Payment unPayment, BindingResult resultadoValidacion) {
 		ModelAndView mav;
+		PaymentId pId = new PaymentId();
 		if (resultadoValidacion.hasErrors()) {
 			mav = new ModelAndView("nuevo_payment");
-			List<OrderDetail> lista = orderDetailService.buscarOrdersPorOrderNumber(unOrder);
-			double total=0;
-			for(OrderDetail o: lista) {
-				total+=o.getPriceEach()*o.getQuantityOrdered();
-			}
-			mav.addObject("customer", unPayment.getPaymentId().getCustomersNumber());
+			//List<OrderDetail> lista = orderDetailService.buscarOrdersPorOrderNumber(unOrder);
+			//double total=0;
+			//for(OrderDetail o: lista) {
+			//	total+=o.getPriceEach()*o.getQuantityOrdered();
+			//}
+			mav.addObject("customer",customer1);
 			mav.addObject("payment", unPayment);
-			mav.addObject("amount", total);
+			mav.addObject("total", total);
 		}
 		else {
+			pId.setCheckNumber(unPayment.getPaymentId().getCheckNumber());
+			pId.setCustomersNumber(customer1);
+			unPayment.setPaymentId(pId);
+			unPayment.setAmount(total);
+			paymentService.guardarPayment(unPayment);
 			mav = new ModelAndView("resultado_payment");
+			mav.addObject("payment", unPayment);
+			customer1= new Customer();
+			total=0;
+			orderDetails= new ArrayList<OrderDetail>();;
 		}
 		return mav;
 		

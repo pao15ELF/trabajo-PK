@@ -7,8 +7,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Embeddable
@@ -16,12 +16,13 @@ import org.springframework.stereotype.Component;
 public class OrderDetailId implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@Valid
+	@Autowired
 	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "orderNumber")
 	private Order orderNumber;
 	
-	@Valid
+	
+	@Autowired
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "productCode")
 	private Product productCode; //tamaño 15

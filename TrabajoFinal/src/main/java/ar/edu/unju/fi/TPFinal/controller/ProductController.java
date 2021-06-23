@@ -16,7 +16,7 @@ import ar.edu.unju.fi.TPFinal.model.Product;
 import ar.edu.unju.fi.TPFinal.service.IProductLineService;
 import ar.edu.unju.fi.TPFinal.service.IProductService;
 
-//@Controller
+@Controller
 public class ProductController {
 
 	@Autowired
@@ -35,6 +35,7 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView("nuevo_product");
 		mav.addObject("product",product);
 		mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+		mav.addObject("bandera", true);
 		return mav;
 		
 	}
@@ -57,6 +58,7 @@ public class ProductController {
 				mav = new ModelAndView("nuevo_product");
 				mav.addObject("product", unProduct);
 				mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+				mav.addObject("bandera", true);
 			}else {
 				productService.guardarProduct(unProduct);
 				mav = new ModelAndView("resultado_product");
@@ -68,7 +70,23 @@ public class ProductController {
 			mav.addObject("mensajeError", mensajeError);
 			mav.addObject("product", unProduct);
 			mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+			mav.addObject("bandera", true);
 		}
+		return mav;
+	}
+	
+	@PostMapping("/product/guardar/modificar")
+	public ModelAndView postGuardarProductPage2(@Valid @ModelAttribute("product") Product unProduct, BindingResult resultadoValidacion ) {
+		ModelAndView mav;
+			if (resultadoValidacion.hasErrors()) {
+				mav = new ModelAndView("nuevo_product");
+				mav.addObject("product", unProduct);
+				mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+				mav.addObject("bandera", false);
+			}else {
+				productService.guardarProduct(unProduct);
+				mav = new ModelAndView("resultado_product");
+			}	
 		return mav;
 	}
 	
@@ -87,6 +105,7 @@ public class ProductController {
 		Product pEncontrado = productService.buscarProductPorId(id);
 		mav.addObject("product", pEncontrado);
 		mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+		mav.addObject("bandera", false);
 		return mav;
 	}
 	

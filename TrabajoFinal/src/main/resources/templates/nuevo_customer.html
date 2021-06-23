@@ -17,18 +17,17 @@
 			<div class="col-sm-10 col-md">
 				<!-- Formulario -->
 
-				<h1 class="text-center">Cargar de datos del cliente</h1>
+				<h1 class="text-center">Cargar de datos del cliente (Empresa)</h1>
 				<hr>
-				<form action="/customer/guardar" th:object="${customer}"
-					method="post">
+				<form action="/customer/guardar" th:object="${customer}" method="post">
 					<!-- Id del cliente oculto -->
 					<input type="hidden" th:field="*{customerNumber}" />
 
 					<!-- Nombre y apellido -->
 					<div class="form-group">
-						<label for="customerName">Customer Name</label> <input type="text"
-							class="form-control" id="customerName" th:field="*{customerName}"
-							placeholder="Ingrese su Nombre y Apellido">
+						<label for="customerName">Nombre</label> 
+						<input type="text" class="form-control" id="customerName" th:field="*{customerName}"
+							placeholder="Ingrese nombre del cliente ó Empresa">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('customerName')}"
@@ -36,9 +35,9 @@
 
 					<!--  Customer Last Name -->
 					<div class="form-group">
-						<label for="contactLastName">Customer Last Name</label> <input
+						<label for="contactLastName">Apellido del Contratador</label> <input
 							type="text" class="form-control" id="contactLastName"
-							th:field="*{contactLastName}" placeholder="Ingrese su Apellido">
+							th:field="*{contactLastName}" placeholder="Ingrese Apellido">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('contactLastName')}"
@@ -46,9 +45,9 @@
 
 					<!--  Customer First Name -->
 					<div class="form-group">
-						<label for="contactFirstName">Customer First Name</label> <input
+						<label for="contactFirstName">Nombre del Contratador</label> <input
 							type="text" class="form-control" id="contactFirstName"
-							th:field="*{contactFirstName}" placeholder="Ingrese su Nombre/s">
+							th:field="*{contactFirstName}" placeholder="Ingrese Nombre/s">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('contactFirstName')}"
@@ -58,9 +57,9 @@
 
 					<!-- Phone -->
 					<div class="form-group">
-						<label for="phone">Phone</label> <input type="number"
-							class="form-control" id="phone" th:field="*{phone}"
-							placeholder="Ingrese su numero">
+						<label for="phone">Telefono</label>
+					    <input type="number" class="form-control" id="phone" th:field="*{phone}"
+							placeholder="Ingrese n° de telefono">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
@@ -69,9 +68,9 @@
 
 					<!-- Address Line  -->
 					<div class="form-group">
-						<label for="addressLine1">Address Line</label> <input type="text"
+						<label for="addressLine1">Direccion 1</label> <input type="text"
 							class="form-control" id="addressLine1" th:field="*{addressLine1}"
-							placeholder="Ingrese su dirección">
+							placeholder="Ingrese dirección">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('addressLine1')}"
@@ -79,10 +78,10 @@
 
 
 					<div class="form-group">
-						<label for="addressLine2">Address Line 2</label> <input
+						<label for="addressLine2">Direccion 2</label> <input
 							type="text" class="form-control" id="addressLine2"
 							th:field="*{addressLine2}"
-							placeholder="Ingrese su segunda dirección.">
+							placeholder="Ingrese otra dirección.">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('addressLine2')}"
@@ -92,9 +91,9 @@
 
 					<!-- City -->
 					<div class="form-group">
-						<label for="city">City</label> <input type="text"
-							class="form-control" id="city" th:field="*{city}"
-							placeholder="Ingrese su ciudad.">
+						<label for="city">Ciudad</label> 
+						<input type="text" class="form-control" id="city" th:field="*{city}"
+							placeholder="Ingrese ciudad">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
@@ -103,9 +102,9 @@
 
 					<!-- State -->
 					<div class="form-group">
-						<label for="state">State</label> <input type="text"
+						<label for="state">Provincia</label> <input type="text"
 							class="form-control" id="state" th:field="*{state}"
-							placeholder="Ingrese su provincia.">
+							placeholder="Ingrese provincia.">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
@@ -114,9 +113,9 @@
 
 					<!-- Postal Code -->
 					<div class="form-group">
-						<label for="postalCode">Postal Code</label> <input type="number"
-							class="form-control" id="postalCode" th:field="*{postalCode}"
-							placeholder="Ingrese su código postal.">
+						<label for="postalCode">Codigo Postal</label> 
+						<input type="number" class="form-control" id="postalCode" th:field="*{postalCode}"
+							placeholder="Ingrese código postal.">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('postalCode')}"
@@ -126,9 +125,8 @@
 
 					<!-- Country -->
 					<div class="form-group">
-						<label for="country">Country</label> <input type="text"
-							class="form-control" id="country" th:field="*{country}"
-							placeholder="Ingrese su email">
+						<label for="country">Pais</label> <input type="text" class="form-control" id="country" th:field="*{country}"
+							placeholder="Ingrese el Pais">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
 						th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></div>
@@ -138,25 +136,25 @@
 					<!-- salesRepEmployeeNumber-->
 					<div class="form-group ">
 						<label>Numero de Employee</label> <select
-							th:field="*{salesRepEmployeeNumber.employeeNumber}"
+							th:field="*{salesRepEmployeeNumber}"
 							class="form-control">
 							<option th:each="employ : ${employees}"
 								th:value="${employ.employeeNumber}"
-								th:text="${employ.employeeNumber} + ' - ' + ${employ.lastName} + ' ' + ${employ.firstName}"
+								th:text="${employ.jobTitle}+ ' - ' + ${employ.lastName} + ' ' + ${employ.firstName}"
 								th:selected="false"></option>
 
 						</select>
 					</div>
 					<!-- Fin salesRepEmployeeNumber -->
-					<!-- Country -->
+					<!-- Credit Limit -->
 					<div class="form-group">
-						<label for="creditLimit">Credit Limit</label> <input type="number"
+						<label for="creditLimit">Limite de Credito</label> <input type="number"
 							class="form-control" id="creditLimit" th:field="*{creditLimit}">
 					</div>
 					<div class="form-text text-danger col-sm-10 offset-2"
-						th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></div>
+						th:if="${#fields.hasErrors('creditLimit')}" th:errors="*{creditLimit}"></div>
 
-					<!-- Fin Country -->
+					<!-- Fin CreditLimit -->
 
 					<br> <br>
 					<button type="submit" class="btn btn-primary">Enviar</button>

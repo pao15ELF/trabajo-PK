@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,9 +16,11 @@ import ar.edu.unju.fi.TPFinal.model.Office;
 import ar.edu.unju.fi.TPFinal.service.IEmployeeService;
 import ar.edu.unju.fi.TPFinal.service.IOfficeService;
 
+
 @SpringBootTest
 class EmployeeTest {
-
+	private static final Log LOGGER = LogFactory.getLog(EmployeeTest.class);
+	
 	@Autowired
 	private IEmployeeService employeeService;
 	
@@ -29,7 +33,9 @@ class EmployeeTest {
 		Office office = officeService.buscarOfficePorId("CTR");
 		
 		List<Employee> lista = employeeService.listaEmployeesPorOffice(office);
+		LOGGER.info("empleado 1:"+lista.get(0).getOfficeCode().getOfficeCode());
 		assertTrue(lista.size()==2);
+		
 		
 	}
 

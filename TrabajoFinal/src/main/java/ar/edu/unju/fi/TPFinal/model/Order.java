@@ -57,7 +57,7 @@ public class Order {
 	@JoinColumn(name = "customerNumber")
 	private Customer customerNumber;
 	
-	@Valid
+	
 	@OneToOne(mappedBy = "orderDetailId.orderNumber" ,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private OrderDetail orderDetail;
 	

@@ -7,6 +7,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -16,17 +18,12 @@ public class PaymentId implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	/*
-	 * incluiriamos cascade? creo que no es necesario
-	 *  cascadeType.Persist en customersNumer?
-	 * 
-	 */
-	@Valid
-	@OneToOne(optional = false,fetch = FetchType.LAZY)
+	@Autowired
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customerNumber")
 	private Customer customersNumber;
 	
-	@NotEmpty(message="Debe ingresar el numero de check(?)")
+	@NotEmpty(message="Debe ingresar el numero de check")
 	@Column(name = "checkNumber", length=50, nullable=false)
 	private String checkNumber; // tamaño 50
 
