@@ -25,7 +25,7 @@ class ProductLineTest {
 	@Autowired
 	private IProductService productService;
 	
-	//@Test
+	@Test
 	void cargarProductLine() {
 		
 		ProductLine marca1 = new ProductLine("SRN-01","La Serenisima",null,null);
@@ -37,7 +37,7 @@ class ProductLineTest {
 		assertEquals(marca1.getProductLine(), encontrado.getProductLine());
 	}
 	
-	@Test
+	//@Test
 	void listaProductos() {
 		ProductLine encontrado = productLineService.buscarProductLinePorId("SRN-01");
 		List<Product> lista = productService.buscarListaProductosPorLineProduct(encontrado); 

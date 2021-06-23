@@ -5,9 +5,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -15,8 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderDetail {
 	
-	@Valid
+	
 	@EmbeddedId
+	@Autowired
 	private OrderDetailId orderDetailId;
 	
 	@Min(value=1, message="La cantidad minima a ordenar debe ser mayor o igual a 1")

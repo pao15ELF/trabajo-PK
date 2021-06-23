@@ -79,7 +79,7 @@ public class Customer {
 	@Column(name = "creditLimit")
 	private double creditLimit;
 	
-	@Valid
+	
 	@OneToOne(mappedBy = "paymentId.customersNumber",fetch = FetchType.LAZY)
 	private Payment payment;
 	

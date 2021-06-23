@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 public class Product {
 	
 	@Id
+	@NotNull(message = "El codigo del producto no puede ser nulo. Ingrese un codigo")
 	@Column(name = "productCode")
 	private String productCode; //tamaño 15 PRINCIPAL
 	
@@ -27,6 +29,7 @@ public class Product {
 	private String productName; //tamaño 70
 	
 	@Valid
+	@NotNull(message = "Debe ingresar una marca de producto")
 	@ManyToOne(optional = false,fetch = FetchType.LAZY)
 	@JoinColumn(name = "productLine")
 	private ProductLine productLine; //tamaño 50

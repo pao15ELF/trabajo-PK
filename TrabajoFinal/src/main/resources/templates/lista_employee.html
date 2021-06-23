@@ -9,7 +9,7 @@
 <body>
 	<header th:replace="/layouts/header :: header"> </header>
 	<main class="form-text text-danger w-75 m-auto mt-3 mb-3 main text-center">
-      <h3>Employee List</h3>
+      <h3>Lista de Empleados</h3>
        </main>
 	<div class="container-fluid">
 		<div class="row">
@@ -21,34 +21,34 @@
         	<table class="table">
 			  <thead class="thead-dark">
 			    <tr>
-			      <th>Employee Number </th>
-			      <th>Last Name</th>
-			      <th >First Name</th>
+			      <th>ID </th>
+			      <th>Apellido</th>
+			      <th >Nombres</th>
 			      <th >Extension</th>
 			      <th >Email</th>
-			      <th > Office Code</th>
-			      <th >Reports To</th>
-			      <th >Job Title </th>
-			      <th >User id</th>
-			      <th >Actions</th>
+			      <th > Oficina</th>
+			      <th >Reporta a</th>
+			      <th >Puesto de Trabajo </th>
+			     <!--   <th >User id</th>-->
+			      <th >Acciones</th>
 			      
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr th:each="e: ${employee}" >
+			    <tr th:each="e: ${employees}" >
 					<td th:text="${e.employeeNumber}"></td>
 					<td th:text="${e.lastName}"></td>
 					<td th:text="${e.firstName}"></td>
 					<td th:text="${e.extension}"></td>
 					<td th:text="${e.email}"></td>
-					<td th:text="${e.office.officeCode}"></td>
-					<td th:if="${e.employee==null}" ></td>
-					<td th:if="${e.employee!=null}" th:text="${e.employee.employeeNumber}"></td>
+					<td th:text="${e.officeCode.officeCode}+', Direccion:'+${e.officeCode.addressLine1}"></td>
+				    <td th:if="${e.reportsTo==null}" ></td>
+					<td th:if="${e.reportsTo!=null}" th:text="${e.reportsTo.lastName}+', '+${e.reportsTo.firstName}"></td>
 					<td th:text="${e.jobTitle}"></td>
-					<td th:text="${e.user.id}"></td>
+					<!--  <td th:text="${e.user.id}"></td> -->
 					<td> 
-						<a th:href="@{/employee/edit/}+${e.employeeNumber}" class="btn btn-success">Edit</a>
-						<a th:href="@{/employee/delete/}+${e.employeeNumber}" class="btn btn-danger">Delete</a>
+						<a th:href="@{/employee/modificar/}+${e.employeeNumber}" class="btn btn-success">Editar</a>
+						<a th:href="@{/employee/eliminar/}+${e.employeeNumber}" class="btn btn-danger">Eliminar</a>
 					 </td>
 				</tr>
 			  </tbody>

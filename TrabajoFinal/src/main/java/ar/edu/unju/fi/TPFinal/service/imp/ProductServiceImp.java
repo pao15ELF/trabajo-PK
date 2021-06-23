@@ -24,7 +24,13 @@ public class ProductServiceImp implements IProductService {
 
 	@Override
 	public Product buscarProductPorId(String id) {
-		Product producto = productRepository.findById(id).get();
+		Product producto=null;
+		try {
+			producto = productRepository.findById(id).get();
+		}catch(Exception e) {
+			e.getCause();
+		}
+		
 		return producto;
 	}
 

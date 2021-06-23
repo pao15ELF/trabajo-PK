@@ -14,7 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,17 +43,20 @@ public class Employee {
 	@Column(name = "extension", length=10, nullable=false)
 	private String extension; // tamaño 10
 	
+	@Email(message="Ingrese una dirección de email valida.")
 	@NotEmpty(message="Debe ingresar un correo electronico valido")
 	@Column(name = "email", length=100, nullable=false)
 	private String email; // tamaño 100
 	
-	@Valid
+	
 	@Autowired
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@Valid
+	@NotNull(message="Debe elegir un departamento")
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "officeCode")
 	private Office officeCode; //tamaño 10
 	
-	
+	@Autowired
 	@Valid
 	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "reportsTo")
@@ -261,8 +266,7 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [employeeNumber=" + employeeNumber + ", lastName=" + lastName + ", firstName=" + firstName
-				+ ", extension=" + extension + ", email=" + email + ", officeCode=" + officeCode + ", reportsTo="
-				+ reportsTo + ", jobTitle=" + jobTitle + "]";
+				+ ", extension=" + extension + ", email=" + email + ", officeCode=" + officeCode + ", jobTitle=" + jobTitle + "]";
 	}
 
 

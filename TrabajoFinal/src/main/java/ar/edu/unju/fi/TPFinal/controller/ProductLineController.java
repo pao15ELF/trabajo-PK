@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unju.fi.TPFinal.model.ProductLine;
 import ar.edu.unju.fi.TPFinal.service.IProductLineService;
 
-//@Controller
+@Controller
 public class ProductLineController {
 		
 	@Autowired
@@ -29,12 +29,13 @@ public class ProductLineController {
 	public ModelAndView getProductLinePage() {
 		ModelAndView mav = new ModelAndView("nuevo_productLine");
 		mav.addObject("productLine", productLine );
+		mav.addObject("bandera", true);
 		return mav;
 	}
 	
 	//validar datos agregar despues @valid y BindingResult
 	@PostMapping("/productLine/guardar")
-	public ModelAndView postGuardarProductLinepage(@Valid @ModelAttribute("productLine") ProductLine unProductLine,BindingResult resultadoValidacion) {
+	public ModelAndView postGuardarProductLinepage(@ModelAttribute("productLine") ProductLine unProductLine) {
 		ModelAndView mav;
 		//buscar si el id del product line ya se encuentra registrado
 		ProductLine encontrado= productLineService.buscarProductLinePorId(unProductLine.getProductLine());
@@ -44,18 +45,22 @@ public class ProductLineController {
 			mav = new ModelAndView("nuevo_productLine");
 			mav.addObject("mensajeError", mensajeError);
 			mav.addObject("productLine", unProductLine);
+			mav.addObject("bandera", true);
 		}
 		else {
-			if (resultadoValidacion.hasErrors()) {
-				mav  = new ModelAndView("nuevo_productLine");
-				mav.addObject("productLine", unProductLine );
-			}else {
-				mav = new ModelAndView("resultado_productLine");
 				productLineService.guardarProductLine(unProductLine);
-			}
+				mav = new ModelAndView("resultado_productLine");		
 		}
 		return mav;
 	}
+	
+	@PostMapping("/productLine/guardar/modificar")
+	public ModelAndView postGuardarProductLinepage2(@ModelAttribute("productLine") ProductLine unProductLine) {
+		ModelAndView mav = new ModelAndView("resultado_productLine");		
+		productLineService.guardarProductLine(unProductLine);				
+		return mav;
+	}
+	
 	
 	@GetMapping("/productLine/lista")
 	public ModelAndView getMostrarProductLinesPage() {
@@ -79,6 +84,7 @@ public class ProductLineController {
 		ProductLine encontrado = productLineService.buscarProductLinePorId(id);
 		ModelAndView mav = new ModelAndView("nuevo_productLine");
 		mav.addObject("productLine", encontrado);
+		mav.addObject("bandera", false);
 		return mav;
 		
 	}

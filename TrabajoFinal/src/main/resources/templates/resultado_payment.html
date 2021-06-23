@@ -10,7 +10,7 @@
 </head>
 <body>
 	<header th:replace="/layouts/header :: header"> </header>
-	<div class="container-fluid">
+	<!--  <div class="container-fluid">
 		<div class="row">
 			<section class="col-md-10">
 				<h3 class="text-center">Listado Payments</h3>
@@ -24,7 +24,6 @@
 									<th>Check Number</th>
 									<th>Payment Date</th>
 									<th>Amount</th>
-									<!-- <th>Acciones</th> -->
 								</tr>
 							</thead>
 							<tbody>
@@ -40,13 +39,23 @@
 										th:href="@{/payment/modificar/}+${p.paymentId.checkNumber}"class="btn btn-warning">EDITAR</a> <br>
 									<br> <a
 										th:href="@{/payment/eliminar/}+${p.paymentId.checkNumber}"class="btn btn-danger">ELIMINAR</a></td> -->
-								</tr>
+								<!--  </tr>
+								
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</section>
 			<aside th:replace="/layouts/publicidad :: aside"></aside>
+		</div>
+	</div> -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10"> 
+				<h3>SE HA GUARDADO CON EXITO</h3>
+				<a href="/orderDetail/nuevo">Realizar nuevo pedido.</a>
+			</div>
+			<aside th:replace="/layouts/publicidad :: aside"> </aside>
 		</div>
 	</div>
 	<footer th:replace="/layouts/footer :: footer"> </footer>

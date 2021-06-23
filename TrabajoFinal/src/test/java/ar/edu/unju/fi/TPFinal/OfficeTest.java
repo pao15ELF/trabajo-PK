@@ -32,6 +32,20 @@ class OfficeTest {
 		
 		officeService.guardarOffice(office);
 		
+		Office office2 = new Office();
+		
+		office2.setAddressLine1("Los Perales 123");
+		office2.setAddressLine2("Calle falsa 123");
+		office2.setCity("Jujuy");
+		office2.setCountry("Argentina");
+		office2.setOfficeCode("ADM"); //id ingresado manualmente
+		office2.setPhone("155122876");
+		office2.setPostalCode("4600");
+		office2.setState("---");
+		office2.setTerritory("ARG");
+		
+		officeService.guardarOffice(office2);
+		
 		Office officeEnc = officeService.buscarOfficePorId("CTR");
 		
 		assertNotNull(officeEnc);

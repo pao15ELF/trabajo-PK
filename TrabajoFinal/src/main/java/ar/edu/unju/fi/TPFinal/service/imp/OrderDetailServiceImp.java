@@ -10,7 +10,7 @@ import ar.edu.unju.fi.TPFinal.model.OrderDetail;
 import ar.edu.unju.fi.TPFinal.repository.IOrderDetailRepository;
 import ar.edu.unju.fi.TPFinal.service.IOrderDetailService;
 
-@Service("orderDetailService")
+@Service("orderDetailServiceImp")
 public class OrderDetailServiceImp implements IOrderDetailService{
 
 	@Autowired

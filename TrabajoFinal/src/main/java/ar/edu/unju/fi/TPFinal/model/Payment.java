@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "PAYMENTS")
@@ -17,6 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Payment {
 	
 	@EmbeddedId
+	@Autowired
 	private PaymentId paymentId;
 	
 	@NotNull(message="Debe ingresar fecha de pago")

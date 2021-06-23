@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class Office {
 
 	@Id
+	@NotNull(message = "Debe ingresar un codigo de officina")
 	@Column(name = "officeCode")
 	private String officeCode; //10
 	

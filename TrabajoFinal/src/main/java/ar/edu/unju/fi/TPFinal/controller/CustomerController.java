@@ -15,13 +15,17 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unju.fi.TPFinal.model.Customer;
 import ar.edu.unju.fi.TPFinal.model.Employee;
 import ar.edu.unju.fi.TPFinal.service.ICustomerService;
+import ar.edu.unju.fi.TPFinal.service.IEmployeeService;
 
-//@Controller
+@Controller
 public class CustomerController {
 	
 	@Autowired
 	@Qualifier("customerServiceImp")
 	private ICustomerService customerService;
+	
+	@Autowired
+	private IEmployeeService employeeService;
 	
 	@Autowired
 	private Customer customer;
@@ -33,7 +37,7 @@ public class CustomerController {
 	public ModelAndView getNuevoCustomerPage() {
 		ModelAndView mav = new ModelAndView("nuevo_customer");
 		mav.addObject("customer", customer);
-		mav.addObject("employee", employee);
+		mav.addObject("employees", employeeService.listaemployees() );
 		return mav;
 	}
 	
@@ -57,7 +61,7 @@ public class CustomerController {
 		ModelAndView mav = new ModelAndView("nuevo_customer");
 		Customer encontrado = customerService.buscarCustomerPorId(id);
 		mav.addObject("customer", encontrado);
-		mav.addObject("employee", encontrado.getSalesRepEmployeeNumber());
+		mav.addObject("employees", employeeService.listaemployees() );
 		return mav;
 	}
 	
@@ -67,12 +71,13 @@ public class CustomerController {
 		if (resultadoValidacion.hasErrors()) {
 			mav = new ModelAndView("nuevo_customer");
 			mav.addObject("customer", unCustomer);
-			mav.addObject("employee", unCustomer.getSalesRepEmployeeNumber());
+			mav.addObject("employees", employeeService.listaemployees() );
 		}
 		else {
 			mav = new ModelAndView("lista_customer");
 			customerService.guardarCustomer(unCustomer);
 			mav.addObject("customers", customerService.listaCustomers());
+			
 		}
 		return mav;
 	}
