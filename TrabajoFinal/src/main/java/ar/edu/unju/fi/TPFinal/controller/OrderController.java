@@ -81,14 +81,15 @@ public class OrderController {
 	
 	@PostMapping("/orderDetail/cargar/siguiente")
 	public ModelAndView guardarOrderPage(@Valid @ModelAttribute("orderDetail")OrderDetail unOrderDetail, BindingResult resultadoValidacion) {
-		ModelAndView mav = new ModelAndView("nuevo_orderDetail");;
-		//OrderDetailId orderDetailId = new OrderDetailId();
+		ModelAndView mav = new ModelAndView("nuevo_orderDetail");
+		//OrderDetailId orderDetailId = new OrderDetailId();}
+		orderDetails.add(unOrderDetail);
 		if (resultadoValidacion.hasErrors()) {
 			mav.addObject("orderDetail", unOrderDetail);
 			mav.addObject("products", productService.obtenerListaProducts());
 			
 		}else {
-			orderDetails.add(unOrderDetail);
+			
 			LOGGER.info("cantidad ordeerdatil"+unOrderDetail.getOrderDetailId().getProductCode());
 			mav.addObject("orderDetail", orderDetail);
 			mav.addObject("products", productService.obtenerListaProducts());
@@ -124,16 +125,20 @@ public class OrderController {
 			mav.addObject("customers", customerService.listaCustomers());
 		}else {
 			orderService.guardarOrder(unOrder);
-			for(OrderDetail o: orderDetails) {
+			//for(OrderDetail o: orderDetails) {
+			LOGGER.info("cantidad de detalles de pedidos:"+orderDetails.size());
+				for(int i=0;i<orderDetails.size();i++) {	
 				OrderDetailId oId = new OrderDetailId();
-				oId.setProductCode(o.getOrderDetailId().getProductCode());
+				OrderDetail oDetail = orderDetails.get(i);
+				oId.setProductCode(orderDetails.get(i).getOrderDetailId().getProductCode());
 				oId.setOrderNumber(unOrder);
-				o.setOrderDetailId(oId);
-				orderDetailService.guardarOrderDetail(o);
-				total=total+(o.getPriceEach()*o.getQuantityOrdered());
-				oId=null;
+				oDetail.setOrderDetailId(oId);
+				LOGGER.info("detalles de cada orden:"+oDetail);
+				orderDetailService.guardarOrderDetail(oDetail);
+				total=total+(oDetail.getPriceEach()*oDetail.getQuantityOrdered());
+				
 			}
-		LOGGER.info("cliente1 "+unOrder.getCustomerNumber().getCustomerNumber());
+			LOGGER.info("cliente1 "+unOrder.getCustomerNumber().getCustomerNumber());
 			customer1 = customerService.buscarCustomerPorId(unOrder.getCustomerNumber().getCustomerNumber());
 			mav = new ModelAndView("nuevo_payment");			
 			mav.addObject("payment", payment);

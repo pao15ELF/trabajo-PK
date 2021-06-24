@@ -79,10 +79,6 @@ public class Customer {
 	@Column(name = "creditLimit")
 	private double creditLimit;
 	
-	
-	@OneToOne(mappedBy = "paymentId.customersNumber",fetch = FetchType.LAZY)
-	private Payment payment;
-	
 	@OneToMany(mappedBy = "customerNumber",fetch = FetchType.LAZY)
 	private List<Order> orders = new ArrayList<Order>();
 	
@@ -420,24 +416,6 @@ public class Customer {
 	 */
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
-	}
-
-
-
-	/**
-	 * @return the payment
-	 */
-	public Payment getPayment() {
-		return payment;
-	}
-
-
-
-	/**
-	 * @param payment the payment to set
-	 */
-	public void setPayment(Payment payment) {
-		this.payment = payment;
 	}
 
 

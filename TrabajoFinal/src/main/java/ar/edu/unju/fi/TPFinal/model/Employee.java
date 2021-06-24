@@ -52,7 +52,7 @@ public class Employee {
 	@Autowired
 	@Valid
 	@NotNull(message="Debe elegir un departamento")
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)//anterior eager
 	@JoinColumn(name = "officeCode")
 	private Office officeCode; //tamaño 10
 	
@@ -266,7 +266,7 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [employeeNumber=" + employeeNumber + ", lastName=" + lastName + ", firstName=" + firstName
-				+ ", extension=" + extension + ", email=" + email + ", officeCode=" + officeCode + ", jobTitle=" + jobTitle + "]";
+				+ ", extension=" + extension + ", email=" + email  + ", jobTitle=" + jobTitle + "]";
 	}
 
 
