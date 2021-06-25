@@ -36,11 +36,12 @@ public class Order {
 	@Column(name = "orderDate", nullable=false)
 	private LocalDate orderDate; //
 	
-	@NotNull(message="Debe ingresar la fecha de retiro de la orden ")
+	@NotNull(message="Debe ingresar la fecha requerida de la orden ")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "requiredDate", nullable=false)
 	private LocalDate requiredDate;
 	
+	@NotNull(message="Debe ingresar la fecha del envío")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "shippedDate", nullable=true)
 	private LocalDate shippedDate;
