@@ -57,7 +57,7 @@
 							type="number" class="form-control" id="quantityOrdered"
 							th:field="*{quantityOrdered}">
 					</div>
-					<div class="form-text text-danger col-sm-10 offset-2"
+					<div class="form-text text-danger "
 						th:if="${#fields.hasErrors('quantityOrdered')}"
 						th:errors="*{quantityOrdered}"></div>
 
@@ -68,7 +68,7 @@
 						<label for="priceEach">Precio por Unidad</label> <input type="number"
 							class="form-control" id="priceEach" th:field="*{priceEach}">
 					</div>
-					<div class="form-text text-danger col-sm-10 offset-2"
+					<div class="form-text text-danger"
 						th:if="${#fields.hasErrors('priceEach')}" th:errors="*{priceEach}"></div>
 					<!-- Fin Price Each-->
 
@@ -78,23 +78,17 @@
 							type="number" class="form-control" id="orderLineNumber"
 							th:field="*{orderLineNumber}">
 					</div>
-					<div class="form-text text-danger col-sm-10 offset-2"
+					<div class="form-text text-danger"
 						th:if="${#fields.hasErrors('orderLineNumber')}"
 						th:errors="*{orderLineNumber}"></div>
 
 					<!-- Order Line Number -->
 
-
-					<br> <br>
-					<button type="submit" class="btn btn-primary">Siguiente</button>
-					
+					<button type="submit" class="btn btn-primary">Cargar Prod.</button>
+					<button onclick="location.href='/order/nuevo'" class="btn btn-success" type="button">Terminar</button>
 				</form>
 				<br>
 				<br>
-				<div>
-					<a href="/order/nuevo">Terminar</a>
-					
-				</div>
 			</div>
 
 			<aside th:replace="/layouts/publicidad :: aside"></aside>

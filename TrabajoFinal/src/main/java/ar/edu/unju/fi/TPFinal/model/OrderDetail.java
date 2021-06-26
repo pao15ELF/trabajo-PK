@@ -24,11 +24,11 @@ public class OrderDetail {
 	@Column(name = "quantityOrdered", nullable=false)
 	private int quantityOrdered;
 	
-	@Min(value=0, message="El precio unitario del producto deber ser mayor 0 ")
+	@Min(value=1, message="El precio unitario del producto deber ser mayor 0 ")
 	@Column(name = "priceEach", nullable=false)
 	private double priceEach; 
 	
-	@Min(value=0, message="El número de linea de orden debe ser mayor a 0")
+	@Min(value=1, message="El número de linea de orden debe ser mayor a 0")
 	@Column(name = "orderLineNumber", nullable=false)
 	private short orderLineNumber;
 	
