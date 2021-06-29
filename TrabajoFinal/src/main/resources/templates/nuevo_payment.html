@@ -44,7 +44,7 @@
 					<!-- Amount-->
 					<div class="form-group">
 						<label>Total a pagar</label> 
-						<h1 type="number" class="form-control" th:text="${total}"/>
+						<h1 th:type="number" class="form-control" th:text="${payment.total}"> </h1>
 					</div>
 					
 					<!--  <div class="form-text text-danger col-sm-10 offset-2"
@@ -63,7 +63,7 @@
 								th:selected="false"></option>
 
 						</select> -->
-						<h1 type="text" class="form-control" th:text="${customer.customerName}"></h1>
+						<h1 th:type="text" class="form-control" th:text="${customer.customerName}"></h1>
 					</div>
 					<!-- Fin customer -->
 

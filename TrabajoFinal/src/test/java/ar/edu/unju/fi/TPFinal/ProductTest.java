@@ -59,4 +59,5 @@ class ProductTest {
 		assertEquals(producto2.getBuyPrice(), productoEncontrado.getBuyPrice());
 	}
 
+
 }

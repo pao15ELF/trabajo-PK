@@ -10,24 +10,24 @@ import javax.persistence.OneToOne;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 @Embeddable
 @Component
-public class OrderDetailId implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class OrderDetailId implements Serializable {
+
+private static final long serialVersionUID = 1L;
 	
 	@Autowired
 	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "orderNumber")
 	private Order orderNumber;
 	
-	
 	@Autowired
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "productCode")
 	private Product productCode; //tamaño 15
 	
-	public OrderDetailId() {
+	public OrderDetailId()
+	{
 		
 	}
 
@@ -36,7 +36,7 @@ public class OrderDetailId implements Serializable{
 	 * @param productCode
 	 */
 	public OrderDetailId(Order orderNumber, Product productCode) {
-	
+		super();
 		this.orderNumber = orderNumber;
 		this.productCode = productCode;
 	}
@@ -76,11 +76,10 @@ public class OrderDetailId implements Serializable{
 		return serialVersionUID;
 	}
 
-	
 	@Override
 	public String toString() {
-		return "OrderDetailId [orderNumber=" + orderNumber + ", productCode=" + productCode + "]";
+		return "OrderDetailId [orderNumber=" + orderNumber + "]";
 	}
-
+	
 	
 }

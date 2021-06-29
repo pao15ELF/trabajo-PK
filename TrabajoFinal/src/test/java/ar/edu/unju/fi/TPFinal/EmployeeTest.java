@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,30 +17,27 @@ import ar.edu.unju.fi.TPFinal.service.IOfficeService;
 
 @SpringBootTest
 class EmployeeTest {
-	private static final Log LOGGER = LogFactory.getLog(EmployeeTest.class);
-	
+
 	@Autowired
 	private IEmployeeService employeeService;
 	
 	@Autowired
 	private IOfficeService officeService;
 	
-	@Test
+	//@Test
 	void testListaEmployees() {
 		
-		Office office = officeService.buscarOfficePorId("CTR");
+		Office office = officeService.buscarOfficePorId("Administracion");
 		
 		List<Employee> lista = employeeService.listaEmployeesPorOffice(office);
-		LOGGER.info("empleado 1:"+lista.get(0).getOfficeCode().getOfficeCode());
-		assertTrue(lista.size()==2);
-		
+		assertEquals(lista.size(), 2);
 		
 	}
 
-	//@Test
+	@Test
 	void testCargarEmployee() {
 		
-		Office office = officeService.buscarOfficePorId("CTR");
+		Office office = officeService.buscarOfficePorId("Administracion");
 		
 		Employee employee1 = new Employee();
 		employee1.setEmail("jefe@gmail.com");
@@ -75,8 +70,8 @@ class EmployeeTest {
 	//@Test
 	void testCustomers() {
 		
-		Employee encontrado = employeeService.buscarEmployeePorId(1);
+		Employee encontrado = employeeService.buscarEmployeePorId(2);
 		List<Customer> customers = encontrado.getCustomers();
-		assertTrue(customers.size()==1);
+		assertTrue(customers.size()==2);
 	}
 }

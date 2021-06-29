@@ -3,7 +3,6 @@ package ar.edu.unju.fi.TPFinal.model;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -11,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name = "ORDERDETAILS")
+@Table(name="ORDERDETAILS")
 @Component
 public class OrderDetail {
-	
-	
+
+
 	@EmbeddedId
 	@Autowired
 	private OrderDetailId orderDetailId;
@@ -24,18 +23,35 @@ public class OrderDetail {
 	@Column(name = "quantityOrdered", nullable=false)
 	private int quantityOrdered;
 	
-	@Min(value=1, message="El precio unitario del producto deber ser mayor 0 ")
+	@Min(value=0, message="El precio unitario del producto deber ser mayor 0 ")
 	@Column(name = "priceEach", nullable=false)
 	private double priceEach; 
 	
-	@Min(value=1, message="El número de linea de orden debe ser mayor a 0")
+	@Min(value=0, message="El número de linea de orden debe ser mayor a 0")
 	@Column(name = "orderLineNumber", nullable=false)
 	private short orderLineNumber;
+	
 	
 	public OrderDetail()
 	{
 		
 	}
+
+
+	/**
+	 * @param orderDetailId
+	 * @param quantityOrdered
+	 * @param priceEach
+	 * @param orderLineNumber
+	 */
+	public OrderDetail(OrderDetailId orderDetailId, int quantityOrdered, double priceEach, short orderLineNumber) {
+		super();
+		this.orderDetailId = orderDetailId;
+		this.quantityOrdered = quantityOrdered;
+		this.priceEach = priceEach;
+		this.orderLineNumber = orderLineNumber;
+	}
+
 
 	/**
 	 * @return the orderDetailId
@@ -43,6 +59,7 @@ public class OrderDetail {
 	public OrderDetailId getOrderDetailId() {
 		return orderDetailId;
 	}
+
 
 	/**
 	 * @param orderDetailId the orderDetailId to set
@@ -99,14 +116,12 @@ public class OrderDetail {
 		this.orderLineNumber = orderLineNumber;
 	}
 
-	
-	
+
 	@Override
 	public String toString() {
-		return "OrderDetail [quantityOrdered=" + quantityOrdered + ", priceEach=" + priceEach + ", orderLineNumber="
-				+ orderLineNumber + "]";
+		return "OrderDetail [ quantityOrdered=" + quantityOrdered + ", priceEach="
+				+ priceEach + ", orderLineNumber=" + orderLineNumber + "]";
 	}
-	
 	
 	
 }

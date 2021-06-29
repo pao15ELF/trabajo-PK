@@ -17,4 +17,7 @@ public interface IEmployeeService {
 	
 	public List<Employee> listaemployees();
 	
+
+	public List<Employee> buscarEmployeePorReportTo(Employee employee);
+	
 }

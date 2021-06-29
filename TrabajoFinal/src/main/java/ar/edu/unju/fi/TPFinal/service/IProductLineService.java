@@ -6,7 +6,7 @@ import java.util.List;
 import ar.edu.unju.fi.TPFinal.model.ProductLine;
 
 public interface IProductLineService {
-
+	
 	public void guardarProductLine(ProductLine productLine);
 	
 	public ProductLine buscarProductLinePorId(String id);
@@ -15,5 +15,5 @@ public interface IProductLineService {
 	
 	public void EliminarProductLine(ProductLine productLine);
 	
-	
+	public List<ProductLine> obtenerListaProductLinesEnLinea();
 }
