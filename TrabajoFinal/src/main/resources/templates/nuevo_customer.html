@@ -135,12 +135,13 @@
 
 					<!-- salesRepEmployeeNumber-->
 					<div class="form-group ">
-						<label>Numero de Employee</label> <select
+						<label>Atendido por</label> <select
 							th:field="*{salesRepEmployeeNumber}"
 							class="form-control">
+							<option value="0" >Ninguno</option>
 							<option th:each="employ : ${employees}"
 								th:value="${employ.employeeNumber}"
-								th:text="${employ.employeeNumber}+', '+${employ.jobTitle}+ ' - ' + ${employ.lastName} + ' ' + ${employ.firstName}"
+								th:text="${employ.jobTitle}+ ' - ' + ${employ.lastName} + ' ' + ${employ.firstName}"
 								th:selected="false"></option>
 
 						</select>
@@ -155,7 +156,19 @@
 						th:if="${#fields.hasErrors('creditLimit')}" th:errors="*{creditLimit}"></div>
 
 					<!-- Fin CreditLimit -->
-					
+					<!-- Estado del cliente -->
+					<div class="form-group">
+			            <label  for="status" class="form-label">Estado</label>
+			            <select th:field="*{status}" class="form-control">
+								<option value="" selected>Seleccione</option> 
+								<option value="Inactivo">Inactivo</option> 
+								<option value="Activo">Activo</option> 
+							</select>	
+			          </div>
+
+					<!-- Fin Estado del cliente -->
+					<br>
+					<hr>
 					<button type="submit" class="btn btn-primary">Enviar</button>
 				</form>
 				<br><br>

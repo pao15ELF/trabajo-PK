@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.TPFinal.model.Customer;
-import ar.edu.unju.fi.TPFinal.model.Employee;
 import ar.edu.unju.fi.TPFinal.service.ICustomerService;
 import ar.edu.unju.fi.TPFinal.service.IEmployeeService;
 
@@ -29,9 +28,6 @@ public class CustomerController {
 	
 	@Autowired
 	private Customer customer;
-	
-	@Autowired
-	private Employee employee;
 	
 	@GetMapping("/customer/nuevo")
 	public ModelAndView getNuevoCustomerPage() {
@@ -51,7 +47,9 @@ public class CustomerController {
 	@GetMapping("/customer/eliminar/{customerNumber}")
 	public ModelAndView getEliminarCustomerPage(@PathVariable(value = "customerNumber")Integer id) {
 		ModelAndView mav = new ModelAndView("lista_customer");
-		customerService.eliminarCustomer(id);
+		Customer encontrado = customerService.buscarCustomerPorId(id);
+		encontrado.setStatus("Inactivo");
+		customerService.guardarCustomer(encontrado);
 		mav.addObject("customers", customerService.listaCustomers());
 		return mav;
 	}

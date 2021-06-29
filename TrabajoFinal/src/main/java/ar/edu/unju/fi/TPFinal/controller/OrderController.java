@@ -33,16 +33,10 @@ import ar.edu.unju.fi.TPFinal.service.IProductService;
 public class OrderController {
 	private static final Log LOGGER = LogFactory.getLog(OrderController.class);
 	@Autowired
-	private Customer customer;
-	
-	@Autowired
 	private Order order;
 	
 	@Autowired
 	private OrderDetail orderDetail;
-	
-	@Autowired
-	private Product product;
 	
 	@Autowired
 	private Payment payment;
@@ -64,47 +58,127 @@ public class OrderController {
 	@Autowired
 	private IPaymentService paymentService;
 	
-	private Product product1;
 	private Customer customer1;
 	
 	private List<OrderDetail> orderDetails = new ArrayList<OrderDetail>();
 	
+	private List<Product> productosOrdenados = new ArrayList<Product>();
+	
 	private double total=0;
+	
+	private Product controlProd;
 	
 	@GetMapping("/orderDetail/nuevo")
 	public ModelAndView nuevoOrderDetailPage() {
 		ModelAndView mav = new ModelAndView("nuevo_orderDetail"); 
 		mav.addObject("orderDetail", orderDetail);
-		mav.addObject("products", productService.obtenerListaProducts());
+		mav.addObject("products", productService.obtenerListaProductsPorEstadoActivo());
+		//mav.addObject("siguiente", false);
 		return mav;
+	}
+	
+	public boolean controlOrdenMayorStock(Product product,short cantidadOrdenada) {
+		boolean mayor=false;
+		for(Product p : productosOrdenados) {
+			if (p.getProductCode()==product.getProductCode())
+				if(cantidadOrdenada>p.getQuantityInStock())
+					mayor=true;
+		}
+		return mayor;
+	}
+	
+	public boolean controlStockIgualCero(Product product) {
+		boolean stockCero=false;
+			for(Product p:productosOrdenados) {
+				if (p.getProductCode()==product.getProductCode()) {
+					if(p.getQuantityInStock()<=0)
+						stockCero=true;
+				}
+			}
+		return stockCero;
+	}
+	
+	public void actualizarStockProducto(Product prod, short cantidad) {
+		short stock=prod.getQuantityInStock();
+		for(Product p:productosOrdenados) {
+			if(p.getProductCode()==prod.getProductCode()) {
+				stock=(short)(stock-cantidad);
+				p.setQuantityInStock(stock);
+			}	
+		}
+		LOGGER.info("stock actualizado en la lista de pedidos:"+stock);
+	}
+	
+	public void quitarProductoDeOrdenados(Product controlProd) {
+		int index=0;
+		
+		for(int i=0;i<=productosOrdenados.size()-1;i++) {
+			if(productosOrdenados.get(i).getProductCode()==controlProd.getProductCode()) {
+				index=i;
+				break;
+			}	
+		}
+		productosOrdenados.remove(index);
+	}
+	
+	public void agregarProductoLista(Product producto) {
+		boolean encontrado=false;
+		if(productosOrdenados.size()!=0) {
+			for(Product p: productosOrdenados) {
+				if (p.getProductCode()==producto.getProductCode())
+					encontrado=true;
+			}	
+		}
+		if(encontrado==false) {
+			productosOrdenados.add(producto);
+		}	
+	}
+	
+	public void modificarStock(short cant) {
+		short stock=controlProd.getQuantityInStock();
+		stock=(short)(stock-cant);
+		controlProd.setQuantityInStock(cant);
 	}
 	
 	@PostMapping("/orderDetail/cargar/siguiente")
 	public ModelAndView guardarOrderPage(@Valid @ModelAttribute("orderDetail")OrderDetail unOrderDetail, BindingResult resultadoValidacion) {
 		ModelAndView mav = new ModelAndView("nuevo_orderDetail");
-		//OrderDetailId orderDetailId = new OrderDetailId();}
 		orderDetails.add(unOrderDetail);
+		short stockProd=0,cantidadOrdenada=0;
+		String mensajeControl="";
 		if (resultadoValidacion.hasErrors()) {
 			mav.addObject("orderDetail", unOrderDetail);
-			mav.addObject("products", productService.obtenerListaProducts());
+			mav.addObject("products", productService.obtenerListaProductsPorEstadoActivo());
 			
 		}else {
-			
-			LOGGER.info("cantidad ordeerdatil"+unOrderDetail.getOrderDetailId().getProductCode());
-			mav.addObject("orderDetail", orderDetail);
-			mav.addObject("products", productService.obtenerListaProducts());
-		
-			//unOrder.setCustomerNumber(unCustomer);
-			//orderService.guardarOrder(unOrder);
-			//orderDetailId.setOrderNumber(unOrder);
-			//orderDetailId.setProductCode(unProduct);
-			//unOrderDetail.setOrderDetailId(orderDetailId);
-			//orderDetailService.guardarOrderDetail(unOrderDetail);		
+			//control de stock
+			controlProd = productService.buscarProductPorId(unOrderDetail.getOrderDetailId().getProductCode().getProductCode());
+			cantidadOrdenada=(short)unOrderDetail.getQuantityOrdered();			
+			stockProd= controlProd.getQuantityInStock();
+			if (stockProd<=0) {
+				mensajeControl="No hay stock para el producto solicitado";
+				mav.addObject("mensajeControl", mensajeControl);
+				mav.addObject("orderDetail", unOrderDetail);
+				mav.addObject("products", productService.obtenerListaProductsPorEstadoActivo());
+			}else {
+				if(cantidadOrdenada>stockProd) {
+					mensajeControl="La cantidad ordenada supera al stock del producto solicitado";
+					mav.addObject("mensajeControl", mensajeControl);
+					mav.addObject("orderDetail", unOrderDetail);
+					mav.addObject("products", productService.obtenerListaProductsPorEstadoActivo());
+				}else {
+					modificarStock(cantidadOrdenada);
+					productosOrdenados.add(controlProd);
+					mav.addObject("orderDetail", orderDetail);
+					mav.addObject("products", productService.obtenerListaProductsPorEstadoActivo());
+					controlProd = new Product();
+				}
+			}
 		}
 		return mav;
 	}
 	
-	@GetMapping("/order/nuevo")
+	//@GetMapping("/order/nuevo")
 	public ModelAndView nuevoOrderPage() {
 		ModelAndView mav = new ModelAndView("nuevo_order");
 		mav.addObject("order", order);
@@ -112,12 +186,44 @@ public class OrderController {
 		return mav;
 	}
 	
+	@PostMapping("/order/nuevo")
+	public ModelAndView postNuevoOrderPage(@ModelAttribute("orderDetail") OrderDetail unOrderDetail) {
+		ModelAndView mav;
+		orderDetails.add(unOrderDetail);
+		short stockProd=0,cantidadOrdenada=0;
+		String mensajeControl="";
+		controlProd = productService.buscarProductPorId(unOrderDetail.getOrderDetailId().getProductCode().getProductCode());
+		cantidadOrdenada = (short) unOrderDetail.getQuantityOrdered();
+		stockProd=controlProd.getQuantityInStock();
+		if (stockProd<=0) {
+			mav = new ModelAndView("nuevo_orderDetail");
+			mensajeControl="No hay stock para el producto solicitado";
+			mav.addObject("orderDetail", unOrderDetail);
+			mav.addObject("products",productService.obtenerListaProductsPorEstadoActivo());
+			mav.addObject("mensajeControl", mensajeControl);
+		}else {
+			if(cantidadOrdenada>stockProd) {
+				mav = new ModelAndView("nuevo_orderDetail");
+				mensajeControl="La cantidad ordenada supera al stock del producto solicitado";
+				mav.addObject("orderDetail", unOrderDetail);
+				mav.addObject("products",productService.obtenerListaProductsPorEstadoActivo());
+				mav.addObject("mensajeControl", mensajeControl);
+			}else {
+				modificarStock(cantidadOrdenada);
+				productosOrdenados.add(controlProd); 
+				mav = new ModelAndView("nuevo_order");
+				mav.addObject("order", order);
+				mav.addObject("customers", customerService.listaCustomers());
+				controlProd = new Product();
+			}
+		}
+		return mav;
+	}
+	
 	@PostMapping("/order/control")
 	public ModelAndView pagarOrderPage(@Valid @ModelAttribute("order")Order unOrder, BindingResult resultadoValidacion) {
 		ModelAndView mav;
-		
-		
-		//List<OrderDetail> lista = orderDetailService.buscarOrdersPorOrderNumber(unOrder);
+		int stock=0,cantidadOrdenada=0;
 		//calculo auxiliar de monto total de la compra
 		if (resultadoValidacion.hasErrors()) {
 			mav = new ModelAndView("nuevo_order");
@@ -125,18 +231,19 @@ public class OrderController {
 			mav.addObject("customers", customerService.listaCustomers());
 		}else {
 			orderService.guardarOrder(unOrder);
-			//for(OrderDetail o: orderDetails) {
-			LOGGER.info("cantidad de detalles de pedidos:"+orderDetails.size());
-				for(int i=0;i<orderDetails.size();i++) {	
+			//controlar stock
+			for(OrderDetail o: orderDetails) {
 				OrderDetailId oId = new OrderDetailId();
-				OrderDetail oDetail = orderDetails.get(i);
-				oId.setProductCode(orderDetails.get(i).getOrderDetailId().getProductCode());
+				oId.setProductCode(o.getOrderDetailId().getProductCode());				
+				//cantidadOrdenada = (short) o.getQuantityOrdered();
+				//stock = productoE.getQuantityInStock()-cantidadOrdenada;
+				//productoE.setQuantityInStock((short)stock);
+				productService.guardarProduct(o.getOrderDetailId().getProductCode());
 				oId.setOrderNumber(unOrder);
-				oDetail.setOrderDetailId(oId);
-				LOGGER.info("detalles de cada orden:"+oDetail);
-				orderDetailService.guardarOrderDetail(oDetail);
-				total=total+(oDetail.getPriceEach()*oDetail.getQuantityOrdered());
-				
+				o.setOrderDetailId(oId);
+				orderDetailService.guardarOrderDetail(o);
+				total=total+(o.getPriceEach()*o.getQuantityOrdered());
+				oId=null;
 			}
 			LOGGER.info("cliente1 "+unOrder.getCustomerNumber().getCustomerNumber());
 			customer1 = customerService.buscarCustomerPorId(unOrder.getCustomerNumber().getCustomerNumber());
@@ -156,11 +263,6 @@ public class OrderController {
 		PaymentId pId = new PaymentId();
 		if (resultadoValidacion.hasErrors()) {
 			mav = new ModelAndView("nuevo_payment");
-			//List<OrderDetail> lista = orderDetailService.buscarOrdersPorOrderNumber(unOrder);
-			//double total=0;
-			//for(OrderDetail o: lista) {
-			//	total+=o.getPriceEach()*o.getQuantityOrdered();
-			//}
 			mav.addObject("customer",customer1);
 			mav.addObject("payment", unPayment);
 			mav.addObject("total", total);

@@ -34,7 +34,7 @@ public class ProductController {
 	public ModelAndView getNuevoProductPage(){
 		ModelAndView mav = new ModelAndView("nuevo_product");
 		mav.addObject("product",product);
-		mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+		mav.addObject("listaProductLine", productLineService.obtenerListaProductLinesEnLinea());
 		mav.addObject("bandera", true);
 		return mav;
 		
@@ -57,7 +57,7 @@ public class ProductController {
 			if (resultadoValidacion.hasErrors()) {
 				mav = new ModelAndView("nuevo_product");
 				mav.addObject("product", unProduct);
-				mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+				mav.addObject("listaProductLine",productLineService.obtenerListaProductLinesEnLinea());
 				mav.addObject("bandera", true);
 			}else {
 				productService.guardarProduct(unProduct);
@@ -69,7 +69,7 @@ public class ProductController {
 			mensajeError = "El codigo del producto ya se encuentra registrado en la base de datos";
 			mav.addObject("mensajeError", mensajeError);
 			mav.addObject("product", unProduct);
-			mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+			mav.addObject("listaProductLine", productLineService.obtenerListaProductLinesEnLinea());
 			mav.addObject("bandera", true);
 		}
 		return mav;
@@ -81,7 +81,7 @@ public class ProductController {
 			if (resultadoValidacion.hasErrors()) {
 				mav = new ModelAndView("nuevo_product");
 				mav.addObject("product", unProduct);
-				mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+				mav.addObject("listaProductLine", productLineService.obtenerListaProductLinesEnLinea());
 				mav.addObject("bandera", false);
 			}else {
 				productService.guardarProduct(unProduct);
@@ -90,11 +90,14 @@ public class ProductController {
 		return mav;
 	}
 	
+	
 	@GetMapping("/product/eliminar/{productCode}")
 	public ModelAndView getEliminarProductPage(@PathVariable(value = "productCode") String id) {
 		ModelAndView mav = new ModelAndView("lista_product");
 		Product pEncontrado = productService.buscarProductPorId(id);
-		productService.eliminarProduct(pEncontrado);
+		pEncontrado.setStatus("FUERA DE LINEA");
+		productService.guardarProduct(pEncontrado);
+		mav.addObject("products", productService.obtenerListaProducts());
 		return mav;
 		
 	}
@@ -104,7 +107,7 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView("nuevo_product");
 		Product pEncontrado = productService.buscarProductPorId(id);
 		mav.addObject("product", pEncontrado);
-		mav.addObject("listaProductLine", productLineService.obtenerListaProductLines());
+		mav.addObject("listaProductLine", productLineService.obtenerListaProductLinesEnLinea());
 		mav.addObject("bandera", false);
 		return mav;
 	}

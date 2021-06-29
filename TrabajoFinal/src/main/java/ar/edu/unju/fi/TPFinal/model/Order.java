@@ -16,16 +16,16 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name = "ORDERS")
+@Table(name="ORDERS")
 @Component
 public class Order {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "orderNumber")
@@ -34,14 +34,13 @@ public class Order {
 	@NotNull(message="Debe ingresar la fecha de la orden ")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "orderDate", nullable=false)
-	private LocalDate orderDate; //
+	private LocalDate orderDate; 
 	
-	@NotNull(message="Debe ingresar la fecha requerida de la orden ")
+	@NotNull(message="Debe ingresar la fecha de retiro de la orden ")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "requiredDate", nullable=false)
 	private LocalDate requiredDate;
 	
-	@NotNull(message="Debe ingresar la fecha del envío")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "shippedDate", nullable=true)
 	private LocalDate shippedDate;
@@ -50,6 +49,7 @@ public class Order {
 	@Column(name = "status", length=15, nullable=false)
 	private String status; //tamaño 15
 	
+	@Size(max=250, message="El comentario no debe pasar los 250 caracteres")
 	@Column(name = "comments", length=250, nullable=true)
 	private String comments; //es TEXT definir tamaño
 	
@@ -58,16 +58,13 @@ public class Order {
 	@JoinColumn(name = "customerNumber")
 	private Customer customerNumber;
 	
-	
-	@OneToOne(mappedBy = "orderDetailId.orderNumber" ,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "orderDetailId.orderNumber" ,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private OrderDetail orderDetail;
 	
 	public Order()
 	{
 		
 	}
-
-	
 
 	/**
 	 * @param orderNumber
@@ -77,9 +74,10 @@ public class Order {
 	 * @param status
 	 * @param comments
 	 * @param customerNumber
+	 * @param orderDetail
 	 */
 	public Order(Integer orderNumber, LocalDate orderDate, LocalDate requiredDate, LocalDate shippedDate, String status,
-			String comments, Customer customerNumber) {
+			String comments, Customer customerNumber, OrderDetail orderDetail) {
 		super();
 		this.orderNumber = orderNumber;
 		this.orderDate = orderDate;
@@ -88,9 +86,8 @@ public class Order {
 		this.status = status;
 		this.comments = comments;
 		this.customerNumber = customerNumber;
+		this.orderDetail = orderDetail;
 	}
-
-
 
 	/**
 	 * @return the orderNumber
@@ -99,7 +96,12 @@ public class Order {
 		return orderNumber;
 	}
 
-
+	/**
+	 * @param orderNumber the orderNumber to set
+	 */
+	public void setOrderNumber(Integer orderNumber) {
+		this.orderNumber = orderNumber;
+	}
 
 	/**
 	 * @return the orderDate
@@ -171,17 +173,12 @@ public class Order {
 		this.comments = comments;
 	}
 
-	
-	
-
 	/**
 	 * @return the customerNumber
 	 */
 	public Customer getCustomerNumber() {
 		return customerNumber;
 	}
-
-
 
 	/**
 	 * @param customerNumber the customerNumber to set
@@ -190,28 +187,12 @@ public class Order {
 		this.customerNumber = customerNumber;
 	}
 
-
-
-	/**
-	 * @param orderNumber the orderNumber to set
-	 */
-	public void setOrderNumber(Integer orderNumber) {
-		this.orderNumber = orderNumber;
-	}
-
-
-	
-
-
-
 	/**
 	 * @return the orderDetail
 	 */
 	public OrderDetail getOrderDetail() {
 		return orderDetail;
 	}
-
-
 
 	/**
 	 * @param orderDetail the orderDetail to set
@@ -220,15 +201,12 @@ public class Order {
 		this.orderDetail = orderDetail;
 	}
 
-
-	
-
 	@Override
 	public String toString() {
 		return "Order [orderNumber=" + orderNumber + ", orderDate=" + orderDate + ", requiredDate=" + requiredDate
-				+ ", shippedDate=" + shippedDate + ", status=" + status + ", comments=" + comments + ", customerNumber="
-				+ customerNumber + "]";
+				+ ", shippedDate=" + shippedDate + ", status=" + status + ", comments=" + comments + ", orderDetail="
+				+ orderDetail + "]";
 	}
-
+	
 	
 }
