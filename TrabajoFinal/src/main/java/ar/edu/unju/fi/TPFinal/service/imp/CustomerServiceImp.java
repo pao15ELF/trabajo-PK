@@ -16,7 +16,6 @@ public class CustomerServiceImp implements ICustomerService {
 	@Autowired
 	private ICustomerRepository customerRepository;
 	
-	
 	@Override
 	public void guardarCustomer(Customer customer) {
 		customerRepository.save(customer);
@@ -31,7 +30,7 @@ public class CustomerServiceImp implements ICustomerService {
 
 	@Override
 	public List<Customer> buscarCustomersPorEmployee(Employee employee) {
-		
+
 		List<Customer> lista = customerRepository.findBySalesRepEmployeeNumber(employee);
 		return lista;
 	}
@@ -46,6 +45,12 @@ public class CustomerServiceImp implements ICustomerService {
 	public void eliminarCustomer(Integer customerNumber) {
 		customerRepository.deleteById(customerNumber);
 		
+	}
+
+	@Override
+	public List<Customer> obtenerListaCustomersActivos(String status) {
+		List<Customer> lista = customerRepository.findByStatus("Activo");
+		return lista;
 	}
 
 	

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Formulario Nueva Order</title>
+<title>Formulario Nuevo Pedido</title>
 <link rel="stylesheet" type="text/css"
 	th:href="@{/webjars/bootstrap/4.6.0-1/css/bootstrap.min.css}">
 </head>
@@ -87,15 +87,20 @@
 
 					<!-- Customer-->
 					<div class="form-group ">
-						<label>Cliente</label> <select th:field="*{customerNumber}"
-							class="form-control">
-							<option th:each="c : ${customers}" th:value="${c.customerNumber}"
-								th:text="${c.customerNumber} + ' - ' + ${c.customerName} "
-								th:selected="false"></option>
+						<label>Cliente</label> 
+						<select th:field="*{customerNumber}" class="form-control">
+							<option value="0">Seleccione </option>							
+							<option th:each="c : ${customers}" 
+									th:value="${c.customerNumber}"
+									th:text="${c.customerNumber} + ' - ' + ${c.customerName} "
+									th:selected="false">
+							</option>
 
 						</select>
 					</div>
 					<!-- Fin customerr -->
+					<br> <br>
+					<hr>
 					<button type="submit" class="btn btn-primary">Pagar</button>
 				</form>
 

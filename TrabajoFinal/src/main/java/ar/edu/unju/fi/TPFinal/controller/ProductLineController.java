@@ -1,6 +1,5 @@
 package ar.edu.unju.fi.TPFinal.controller;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,77 +16,84 @@ import ar.edu.unju.fi.TPFinal.service.IProductLineService;
 
 @Controller
 public class ProductLineController {
+			
+		@Autowired
+		@Qualifier("productLineServiceImp")
+		private IProductLineService productLineService;
 		
-	@Autowired
-	@Qualifier("productLineServiceImp")
-	private IProductLineService productLineService;
-	
-	@Autowired
-	private ProductLine productLine;
-	
-	@GetMapping("/productLine/nuevo")
-	public ModelAndView getProductLinePage() {
-		ModelAndView mav = new ModelAndView("nuevo_productLine");
-		mav.addObject("productLine", productLine );
-		mav.addObject("bandera", true);
-		return mav;
-	}
-	
-	//validar datos agregar despues @valid y BindingResult
-	@PostMapping("/productLine/guardar")
-	public ModelAndView postGuardarProductLinepage(@ModelAttribute("productLine") ProductLine unProductLine) {
-		ModelAndView mav;
-		//buscar si el id del product line ya se encuentra registrado
-		ProductLine encontrado= productLineService.buscarProductLinePorId(unProductLine.getProductLine());
-		String mensajeError = "";
-		if (encontrado!=null) {
-			mensajeError = "La marca o linea de producto ya se encuentra cargada en la Base de Datos";
-			mav = new ModelAndView("nuevo_productLine");
-			mav.addObject("mensajeError", mensajeError);
-			mav.addObject("productLine", unProductLine);
+		@Autowired
+		private ProductLine productLine;
+		
+		@GetMapping("/productLine/nuevo")
+		public ModelAndView getProductLinePage() {
+			ModelAndView mav = new ModelAndView("nuevo_productLine");
+			mav.addObject("productLine", productLine );
 			mav.addObject("bandera", true);
+			return mav;
 		}
-		else {
+		
+		//validar datos agregar despues @valid y BindingResult
+		@PostMapping("/productLine/guardar")
+		public ModelAndView postGuardarProductLinepage(@ModelAttribute("productLine") ProductLine unProductLine) {
+			ModelAndView mav;
+			//buscar si el id del product line ya se encuentra registrado
+			ProductLine encontrado= productLineService.buscarProductLinePorId(unProductLine.getProductLine());
+			String mensajeError = "";
+			if (encontrado!=null) {
+				mensajeError = "La marca o linea de producto ya se encuentra cargada en la Base de Datos";
+				mav = new ModelAndView("nuevo_productLine");
+				mav.addObject("mensajeError", mensajeError);
+				mav.addObject("productLine", unProductLine);
+				mav.addObject("bandera", true);
+			}
+			else {
+					productLineService.guardarProductLine(unProductLine);
+					mav = new ModelAndView("resultado_productLine");		
+			}
+			return mav;
+		}
+		
+		@PostMapping("/productLine/guardar/modificar")
+		public ModelAndView postGuardarProductLinepage2(@ModelAttribute("productLine") ProductLine unProductLine, BindingResult resultadoValidacion ) {
+			ModelAndView mav;		
+			if (resultadoValidacion.hasErrors()) {
+				mav = new ModelAndView("nuevo_productLine");
+				mav.addObject("productLine", unProductLine);
+				mav.addObject("bandera", false);
+			}else {
+				
 				productLineService.guardarProductLine(unProductLine);
-				mav = new ModelAndView("resultado_productLine");		
+				mav = new ModelAndView("resultado_productLine");	
+			}		
+			return mav;
 		}
-		return mav;
-	}
-	
-	@PostMapping("/productLine/guardar/modificar")
-	public ModelAndView postGuardarProductLinepage2(@ModelAttribute("productLine") ProductLine unProductLine) {
-		ModelAndView mav = new ModelAndView("resultado_productLine");		
-		productLineService.guardarProductLine(unProductLine);				
-		return mav;
-	}
-	
-	
-	@GetMapping("/productLine/lista")
-	public ModelAndView getMostrarProductLinesPage() {
-		ModelAndView mav = new ModelAndView("lista_productLine");
-		mav.addObject("productLines", productLineService.obtenerListaProductLines());
-		return mav;
-	}
-	
-	@GetMapping("/productLine/eliminar/{productLine}")
-	public ModelAndView getEliminarProductLinePage(@PathVariable(value="productLine") String id) {
-		ProductLine encontrado = productLineService.buscarProductLinePorId(id);
-		productLineService.EliminarProductLine(encontrado);
-		ModelAndView mav = new ModelAndView("lista_productLine");
-		mav.addObject("productLines", productLineService.obtenerListaProductLines());
-		return mav;
 		
-	}
-	
-	@GetMapping("/productLine/modificar/{productLine}")
-	public ModelAndView getModificarProductLinePage(@PathVariable(value="productLine") String id) {
-		ProductLine encontrado = productLineService.buscarProductLinePorId(id);
-		ModelAndView mav = new ModelAndView("nuevo_productLine");
-		mav.addObject("productLine", encontrado);
-		mav.addObject("bandera", false);
-		return mav;
 		
-	}
-	
-	
+		@GetMapping("/productLine/lista")
+		public ModelAndView getMostrarProductLinesPage() {
+			ModelAndView mav = new ModelAndView("lista_productLine");
+			mav.addObject("productLines", productLineService.obtenerListaProductLines());
+			return mav;
+		}
+		
+		@GetMapping("/productLine/eliminar/{productLine}")
+		public ModelAndView getEliminarProductLinePage(@PathVariable(value="productLine") String id) {
+			ProductLine encontrado = productLineService.buscarProductLinePorId(id);
+			encontrado.setStatus("FUERA DE LINEA");
+			productLineService.guardarProductLine(encontrado);
+			ModelAndView mav = new ModelAndView("lista_productLine");
+			mav.addObject("productLines", productLineService.obtenerListaProductLines());
+			return mav;
+		}
+		
+		@GetMapping("/productLine/modificar/{productLine}")
+		public ModelAndView getModificarProductLinePage(@PathVariable(value="productLine") String id) {
+			ProductLine encontrado = productLineService.buscarProductLinePorId(id);
+			ModelAndView mav = new ModelAndView("nuevo_productLine");
+			mav.addObject("productLine", encontrado);
+			mav.addObject("bandera", false);
+			return mav;
+		}
+		
+
 }

@@ -1,5 +1,7 @@
 package ar.edu.unju.fi.TPFinal.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unju.fi.TPFinal.model.Office;
 import ar.edu.unju.fi.TPFinal.service.IOfficeService;
 
-//@Controller
+@Controller
 public class OfficeController {
 
 	@Autowired
@@ -35,6 +37,7 @@ public class OfficeController {
 	@GetMapping("/office/lista")
 	public ModelAndView getListaOfficePage() {
 		ModelAndView mav = new ModelAndView("lista_office");
+		mav.addObject("officeAux", office);
 		mav.addObject("offices", officeService.obtenerListaOffices());
 		return mav;
 	}
@@ -76,6 +79,20 @@ public class OfficeController {
 			mav.addObject("office", encontrado);
 			mav.addObject("mensajeError", mensajeError);
 		}
+		return mav;
+	}
+	
+	@PostMapping("/office/buscar")
+	public ModelAndView postBuscarOffice(@ModelAttribute("officeAux")Office buscado) {
+		ModelAndView mav = new ModelAndView("lista_office");
+		String mensaje="";
+			List<Office> listaEncontrado = officeService.buscarOfficePorOfficeCode(buscado.getOfficeCode());
+			if(listaEncontrado==null) {
+				mensaje="NINGUNA OFICINA COINCIDE CON LA BUSQUEDA";
+				mav.addObject("mensaje", mensaje);
+			}	
+			mav.addObject("officeAux", office);
+			mav.addObject("offices", listaEncontrado);
 		return mav;
 	}
 }

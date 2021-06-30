@@ -8,8 +8,10 @@ import ar.edu.unju.fi.TPFinal.model.Customer;
 import ar.edu.unju.fi.TPFinal.model.Employee;
 
 public interface ICustomerRepository extends CrudRepository<Customer,Integer> {
-	
+
 	public Customer findByCustomerNumber(Integer id);
 	
 	public List<Customer> findBySalesRepEmployeeNumber(Employee employee);
+	
+	public List<Customer> findByStatus(String status);
 }

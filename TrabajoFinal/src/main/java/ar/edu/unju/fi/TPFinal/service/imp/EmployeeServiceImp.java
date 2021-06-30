@@ -30,7 +30,7 @@ public class EmployeeServiceImp implements IEmployeeService {
 
 	@Override
 	public List<Employee> listaEmployeesPorOffice(Office office) {
-		List<Employee> lista = employeeRepository.findByOfficeCode(office);
+		List<Employee> lista = employeeRepository.findAllByOfficeCode(office);
 		return lista;
 	}
 
@@ -46,5 +46,9 @@ public class EmployeeServiceImp implements IEmployeeService {
 		return lista;
 	}
 
-	
+	@Override
+	public List<Employee> buscarEmployeePorReportTo(Employee employee) {
+		List<Employee> lista = employeeRepository.findByReportsTo(employee);
+		return lista;
+	}
 }

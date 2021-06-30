@@ -7,12 +7,12 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 import javax.persistence.Table;
-import org.springframework.stereotype.Component;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "PAYMENTS")
 @Component

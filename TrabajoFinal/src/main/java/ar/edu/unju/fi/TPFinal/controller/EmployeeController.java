@@ -1,5 +1,7 @@
 package ar.edu.unju.fi.TPFinal.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.TPFinal.model.Employee;
-import ar.edu.unju.fi.TPFinal.model.Office;
 import ar.edu.unju.fi.TPFinal.service.IEmployeeService;
 import ar.edu.unju.fi.TPFinal.service.IOfficeService;
 
@@ -55,6 +56,13 @@ public class EmployeeController {
 	@GetMapping("/employee/eliminar/{employeeNumber}")
 	public ModelAndView getEliminarEmployeePage(@PathVariable(value ="employeeNumber")Integer id) {
 		ModelAndView mav = new ModelAndView("lista_employee");
+		//cambiar a null los reportTo de cada empleado que reportaba al empleado a eliminar
+		Employee encontrado = employeeService.buscarEmployeePorId(id);
+		List<Employee> lista = employeeService.buscarEmployeePorReportTo(encontrado);
+		for(Employee e: lista) {
+			e.setReportsTo(null);
+			employeeService.guardarEmployee(e);
+		}
 		employeeService.eliminarEmployee(id);
 		mav.addObject("employees", employeeService.listaemployees());
 		
@@ -74,8 +82,6 @@ public class EmployeeController {
 	@PostMapping("/employee/guardar")
 	public ModelAndView postGuardarEmployeePage(@Valid @ModelAttribute("employee")Employee unEmployee, BindingResult resultadoValidacion) {
 		ModelAndView mav;
-		Employee reportTo;
-		Office office;
 		if (resultadoValidacion.hasErrors()) {
 			mav = new ModelAndView("nuevo_employee");
 			mav.addObject("employee", unEmployee);
