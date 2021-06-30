@@ -3,7 +3,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 		<title>Oficinas</title>
+
 		<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.6.0-1/css/bootstrap.min.css}">
 	</head>
 <body>
@@ -11,6 +13,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<section class="col-md-10">
+
 				<h3> BUSQUEDA DE OFICINAS</h3>
 					<form th:action="@{/office/buscar}" th:object="${officeAux}" method="post">	
 						<div class="form-group">
@@ -23,6 +26,7 @@
 					</form>	
 				<br>
 				<br>
+
 				<h3 class="text-center"> Listado de Oficinas</h3>
 				<hr>
 				<div class="text-center">
@@ -30,6 +34,7 @@
 						<table class="table">
 							<thead class="thead-dark"> 
 			    <tr>
+
 			      <th>Codigo Oficina</th>
 			      <th>Pais</th>
 			      <th>Estado</th>
@@ -41,10 +46,12 @@
 			      <th>Dirección 2</th>
 			      <th>Estado </th>
 			      <!-- <th>Acciones</th> -->
+
 			      
 			    </tr>
 			  </thead>
 			  <tbody>
+
 			    <tr class="text-black" th:each="o: ${offices}" >
 					<td th:text="${o.officeCode}"></td>
 					<td th:text="${o.country}"></td>
@@ -55,8 +62,10 @@
 					<td th:text="${o.phone}"></td>
 					<td th:text="${o.addressLine1}"></td>
 					<td th:text="${o.addressLine2}"></td>
+
 					<td th:text="${o.status}"> </td>
 					<!-- <td> 
+
 						<a th:href="@{/office/edit/}+${o.officeCode}" class="btn btn-success">Edit</a>
 						<a th:href="@{/office/delete/}+${o.officeCode}" class="btn btn-danger">Delete</a>
 					 </td> -->
@@ -65,10 +74,12 @@
 			</table>
         </div>
         </div>
+
         
         </section>
          <aside th:replace="/layouts/publicidad :: aside"> </aside>
         </div>
+
       </div>
       <footer th:replace="/layouts/footer :: footer"> </footer>
 <script type="text/javascript" th:src=@{/webjars/jquery/3.5.1/jquery.min.js}></script>
